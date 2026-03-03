@@ -1,0 +1,1376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JLP Financial – CRM</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=DM+Serif+Display&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --navy:#0f2140;--navy2:#0a1830;--gold:#c9a84c;--gold-l:#e2c47a;
+  --bg:#f0f3f8;
+  --g50:#f8fafc;--g100:#f1f5f9;--g200:#e2e8f0;--g300:#cbd5e1;
+  --g400:#94a3b8;--g500:#64748b;--g600:#475569;--g700:#334155;--g900:#0f172a;
+  --blue:#1a56db;--green:#16a34a;--green-bg:#f0fdf4;
+  --red:#dc2626;--red-bg:#fef2f2;
+  --amber:#b45309;--amber-bg:#fffbeb;
+  --purple:#7c3aed;--purple-bg:#f5f3ff;
+  --r:8px;
+  --sh:0 1px 3px rgba(0,0,0,.05),0 4px 16px rgba(13,27,46,.07);
+}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--g900);font-size:14px;min-height:100vh;display:flex;flex-direction:column}
+.header{background:var(--navy);height:60px;display:flex;align-items:center;justify-content:space-between;padding:0 28px;position:sticky;top:0;z-index:100;box-shadow:0 2px 20px rgba(0,0,0,.3)}
+.logo{display:flex;align-items:center;gap:10px;cursor:pointer;text-decoration:none}
+.logo-badge{width:34px;height:34px;background:linear-gradient(135deg,var(--gold),var(--gold-l));border-radius:7px;display:flex;align-items:center;justify-content:center}
+.logo-badge svg{width:17px;height:17px}
+.logo-name{font-family:'DM Serif Display',serif;font-size:15px;color:#fff}
+.logo-sub{font-size:10px;color:rgba(255,255,255,.4);letter-spacing:1.5px;text-transform:uppercase;margin-left:4px}
+.hbtn{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.07);color:rgba(255,255,255,.8);font-family:'DM Sans',sans-serif;transition:all .13s}
+.hbtn:hover{background:rgba(255,255,255,.13)}
+.layout{display:flex;flex:1;min-height:0}
+.sidebar{width:220px;background:var(--navy2);flex-shrink:0;padding:20px 0}
+.nav-s{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.2);padding:16px 20px 6px}
+.nav-i{display:flex;align-items:center;gap:10px;padding:10px 20px;font-size:13px;font-weight:500;color:rgba(255,255,255,.5);cursor:pointer;transition:all .13s;border-left:2px solid transparent;user-select:none}
+.nav-i:hover{color:rgba(255,255,255,.8);background:rgba(255,255,255,.04)}
+.nav-i.active{color:#fff;background:rgba(255,255,255,.06);border-left-color:var(--gold)}
+.nav-i svg{width:15px;height:15px;flex-shrink:0}
+.ndot{width:7px;height:7px;border-radius:50%;display:inline-block;flex-shrink:0}
+.main{flex:1;overflow-y:auto;padding:28px}
+.stats{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-bottom:24px}
+.stat{background:white;border:1px solid var(--g200);border-radius:10px;padding:16px 18px;box-shadow:var(--sh)}
+.stat-val{font-family:'DM Serif Display',serif;font-size:26px;color:var(--navy);line-height:1}
+.stat-lbl{font-size:11px;color:var(--g500);margin-top:4px;font-weight:500}
+.toolbar{display:flex;align-items:center;gap:10px;margin-bottom:16px;flex-wrap:wrap}
+.srch{position:relative;flex:1;min-width:200px}
+.srch svg{position:absolute;left:11px;top:50%;transform:translateY(-50%);width:14px;height:14px;color:var(--g400);pointer-events:none}
+.srch input{width:100%;height:38px;padding:0 12px 0 34px;border:1.5px solid var(--g200);border-radius:var(--r);font-family:'DM Sans',sans-serif;font-size:13px;outline:none;background:white;transition:border .15s}
+.srch input:focus{border-color:var(--blue)}
+select.fsel{height:38px;padding:0 28px 0 11px;border:1.5px solid var(--g200);border-radius:var(--r);font-family:'DM Sans',sans-serif;font-size:13px;color:var(--g700);background:white url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath fill='%2364748b' d='M5 6L0 0h10z'/%3E%3C/svg%3E") no-repeat right 9px center;appearance:none;outline:none;cursor:pointer}
+.tbtn{display:inline-flex;align-items:center;gap:6px;height:38px;padding:0 14px;border:1.5px solid var(--g200);border-radius:var(--r);background:white;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;color:var(--g600);cursor:pointer;transition:all .13s}
+.tbtn:hover{border-color:var(--navy);color:var(--navy)}
+.twrap{background:white;border:1px solid var(--g200);border-radius:10px;box-shadow:var(--sh);overflow:hidden}
+table{width:100%;border-collapse:collapse}
+thead th{padding:11px 16px;text-align:left;font-size:10.5px;font-weight:700;color:var(--g500);letter-spacing:.8px;text-transform:uppercase;background:var(--g50);border-bottom:1px solid var(--g200);white-space:nowrap}
+tbody tr{border-bottom:1px solid var(--g100);cursor:pointer;transition:background .1s}
+tbody tr:last-child{border-bottom:none}
+tbody tr:hover{background:var(--g50)}
+tbody td{padding:13px 16px;font-size:13px;color:var(--g700);vertical-align:middle}
+.tname{font-weight:600;color:var(--g900)}
+.tid{font-size:11px;color:var(--g400);font-family:monospace}
+.tamt{font-weight:600;color:var(--navy)}
+.empty-row td{text-align:center;padding:48px;color:var(--g400);font-style:italic}
+.pgn{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-top:1px solid var(--g100);font-size:12.5px;color:var(--g500)}
+.pbtns{display:flex;gap:4px}
+.pbtn{width:30px;height:30px;border:1px solid var(--g200);border-radius:5px;background:white;cursor:pointer;font-size:12px;font-weight:500;color:var(--g600);display:flex;align-items:center;justify-content:center;transition:all .12s}
+.pbtn:hover{border-color:var(--navy);color:var(--navy)}
+.pbtn.active{background:var(--navy);color:white;border-color:var(--navy)}
+.badge{display:inline-flex;align-items:center;gap:4px;padding:3px 9px;border-radius:20px;font-size:11px;font-weight:600;white-space:nowrap}
+.b-New{background:#eff6ff;color:#1d4ed8}.b-Review{background:var(--amber-bg);color:var(--amber)}.b-Approved{background:var(--green-bg);color:var(--green)}.b-Declined{background:var(--red-bg);color:var(--red)}.b-Submitted{background:var(--purple-bg);color:var(--purple)}
+.bdot{width:5px;height:5px;border-radius:50%;background:currentColor}
+/* PIPELINE */
+.pipe-cols{display:flex;gap:16px;overflow-x:auto;padding-bottom:8px}
+.pipe-col{flex:1;min-width:210px}
+.pipe-col-head{display:flex;align-items:center;gap:7px;margin-bottom:12px}
+.pipe-cnt{margin-left:auto;background:var(--g100);color:var(--g500);font-size:11px;font-weight:600;padding:2px 8px;border-radius:10px}
+.pipe-card{background:white;border:1px solid var(--g200);border-radius:8px;padding:13px;margin-bottom:8px;cursor:pointer;transition:box-shadow .13s;box-shadow:var(--sh)}
+.pipe-card:hover{box-shadow:0 4px 16px rgba(0,0,0,.12)}
+/* DETAIL */
+#detailView{display:none;position:fixed;top:60px;left:0;right:0;bottom:0;overflow-y:auto;background:var(--bg);z-index:50;flex-direction:column}
+#detailView.show{display:flex}
+.det-topbar{background:var(--navy);height:50px;display:flex;align-items:center;padding:0 28px;gap:12px;flex-shrink:0}
+.back-btn{display:inline-flex;align-items:center;gap:7px;background:none;border:none;color:rgba(255,255,255,.6);font-size:13px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;transition:color .13s;padding:0}
+.back-btn:hover{color:white}
+.det-body{padding:28px;max-width:1100px;width:100%;margin:0 auto}
+.det-hero{background:var(--navy);border-radius:12px;padding:28px 32px;margin-bottom:24px;display:flex;align-items:flex-start;justify-content:space-between;gap:24px;flex-wrap:wrap}
+.det-hero-name{font-family:'DM Serif Display',serif;font-size:30px;color:white;margin-bottom:6px}
+.det-hero-meta{display:flex;flex-wrap:wrap;gap:16px;font-size:13px;color:rgba(255,255,255,.5)}
+.loan-pill{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:14px 22px;text-align:right}
+.loan-pill-lbl{font-size:10px;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:1px}
+.loan-pill-amt{font-family:'DM Serif Display',serif;font-size:26px;color:var(--gold-l);margin-top:3px}
+.det-row{display:grid;gap:18px;margin-bottom:18px}
+.det-row.c2{grid-template-columns:1fr 1fr}
+.det-row.c3{grid-template-columns:1fr 1fr 1fr}
+.dcard{background:white;border:1px solid var(--g200);border-radius:10px;box-shadow:var(--sh);overflow:hidden}
+.dcard-head{padding:12px 18px;border-bottom:1px solid var(--g100);background:var(--g50);display:flex;align-items:center;gap:9px}
+.dcard-icon{width:26px;height:26px;background:var(--navy);border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.dcard-icon svg{width:13px;height:13px;color:var(--gold-l)}
+.dcard-title{font-size:10px;font-weight:700;letter-spacing:1.8px;text-transform:uppercase;color:var(--navy)}
+.dcard-body{padding:18px}
+.fg{display:grid;gap:12px;margin-bottom:12px}
+.fg:last-child{margin-bottom:0}
+.fg.g2{grid-template-columns:1fr 1fr}
+.fg.g3{grid-template-columns:1fr 1fr 1fr}
+.fg.g4{grid-template-columns:1fr 1fr 1fr 1fr}
+.df-lbl{font-size:10px;font-weight:700;color:var(--g400);text-transform:uppercase;letter-spacing:.6px;margin-bottom:3px}
+.df-val{font-size:13.5px;color:var(--g900);font-weight:500;line-height:1.4}
+.df-val.empty{color:var(--g400);font-style:italic;font-weight:400}
+.divider{border:none;border-top:1px solid var(--g100);margin:14px 0}
+.ss-row{display:flex;gap:7px;flex-wrap:wrap}
+.ss-btn{padding:7px 18px;border-radius:20px;font-size:12px;font-weight:600;border:1.5px solid var(--g200);background:white;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .13s}
+.ss-btn:hover{border-color:var(--g400)}
+.ss-New.on{background:#eff6ff;color:#1d4ed8;border-color:#93c5fd}
+.ss-Review.on{background:var(--amber-bg);color:var(--amber);border-color:#fcd34d}
+.ss-Approved.on{background:var(--green-bg);color:var(--green);border-color:#86efac}
+.ss-Declined.on{background:var(--red-bg);color:var(--red);border-color:#fca5a5}
+.ss-Submitted.on{background:var(--purple-bg);color:var(--purple);border-color:#c4b5fd}
+.mtable{width:100%;border-collapse:collapse;font-size:13px}
+.mtable th{padding:8px 12px;text-align:left;font-size:10px;font-weight:700;color:var(--g500);letter-spacing:.7px;text-transform:uppercase;background:var(--g50);border-bottom:1px solid var(--g200)}
+.mtable td{padding:9px 12px;border-bottom:1px solid var(--g100);color:var(--g700)}
+.mtable tr:last-child td{border-bottom:none}
+.mtable .r{text-align:right;font-weight:600;color:var(--g900)}
+.mt-empty{color:var(--g400);font-style:italic;font-size:12.5px}
+.notes-area{width:100%;min-height:100px;padding:11px 13px;border:1.5px solid var(--g200);border-radius:var(--r);font-family:'DM Sans',sans-serif;font-size:13px;color:var(--g900);resize:vertical;outline:none;line-height:1.6;transition:border .15s}
+.notes-area:focus{border-color:var(--blue)}
+.act-row{display:flex;align-items:center;gap:8px;margin-top:10px}
+.save-btn{padding:9px 20px;background:var(--navy);color:white;border:none;border-radius:var(--r);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;cursor:pointer}
+.del-btn{padding:9px 18px;background:var(--red-bg);color:var(--red);border:1px solid #fca5a5;border-radius:var(--r);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;cursor:pointer;margin-left:auto}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--navy);color:white;padding:10px 22px;border-radius:40px;font-size:13px;font-weight:500;box-shadow:0 4px 20px rgba(0,0,0,.2);transition:transform .3s cubic-bezier(.34,1.56,.64,1);z-index:999;pointer-events:none}
+.toast.show{transform:translateX(-50%) translateY(0)}
+.loading{padding:60px;text-align:center;color:var(--g400);font-size:14px}
+.doc-file-list{display:flex;flex-direction:column;gap:8px;margin-bottom:12px}
+.doc-file-item{display:flex;align-items:center;gap:12px;padding:10px 14px;background:white;border:1px solid var(--g200);border-radius:8px}
+.doc-file-icon{width:32px;height:32px;background:var(--navy);border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.doc-file-icon svg{width:14px;height:14px;color:var(--gold-l)}
+.doc-file-name{font-size:13px;font-weight:600;color:var(--g900);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.doc-file-actions{display:flex;gap:6px;flex-shrink:0}
+.doc-dl-btn{display:inline-flex;align-items:center;gap:5px;padding:6px 12px;background:var(--navy);color:white;border:none;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer;font-family:"DM Sans",sans-serif;text-decoration:none}
+.doc-del-btn{display:inline-flex;align-items:center;padding:6px 10px;background:var(--red-bg);color:var(--red);border:1px solid #fca5a5;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer;font-family:"DM Sans",sans-serif}
+.doc-upload-area{border:2px dashed var(--g200);border-radius:10px;padding:24px;text-align:center;cursor:pointer;transition:all .15s;background:var(--g50);margin-top:14px}
+.doc-upload-area:hover{border-color:var(--blue);background:#eff6ff}
+@media(max-width:900px){.sidebar{display:none}.stats{grid-template-columns:repeat(2,1fr)}.det-row.c2,.det-row.c3{grid-template-columns:1fr}}
+@media print{
+  body{background:white!important}
+  .header,.sidebar,.det-topbar,#docUploadArea,.act-row,.doc-del-btn,.ss-row{display:none!important}
+  #listView{display:none!important}
+  #detailView{display:block!important;overflow:visible!important}
+  .det-body{padding:0!important;max-width:100%!important}
+  .det-hero{border-radius:0!important;margin-bottom:16px!important;padding:20px 24px!important;break-inside:avoid}
+  .dcard{box-shadow:none!important;border:1px solid #e2e8f0!important;break-inside:avoid;margin-bottom:12px!important}
+  .det-row{margin-bottom:12px!important}
+  .det-row.c2{grid-template-columns:1fr 1fr!important}
+  .det-row.c3{grid-template-columns:1fr 1fr 1fr!important}
+  .stats{display:none!important}
+  .toolbar{display:none!important}
+  .twrap{display:none!important}
+  .print-header{display:flex!important}
+  .print-footer{display:block!important}
+  @page{margin:15mm;size:A4}
+}
+.entry{display:flex;align-items:flex-start;gap:10px;padding:10px 14px;border:1px solid var(--g200);border-radius:8px;margin-bottom:8px;background:var(--g50);flex-wrap:wrap}
+.entry-fields{display:flex;gap:8px;flex:1;flex-wrap:wrap}
+.entry-fld{display:flex;flex-direction:column;gap:4px;min-width:90px}
+.entry-fld.grow{flex:1}
+.entry-lbl{font-size:10px;font-weight:700;color:var(--g500);text-transform:uppercase;letter-spacing:.5px}
+.entry-fld select,.entry-fld input[type=text],.entry-fld input[type=number]{height:36px;padding:0 10px;border:1.5px solid var(--g200);border-radius:6px;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--g900);background:white;outline:none;transition:border .13s;width:100%}
+.entry-fld select:focus,.entry-fld input:focus{border-color:var(--blue)}
+.entry-pre{position:relative}
+.entry-pre span{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:var(--g400);font-size:13px;pointer-events:none}
+.entry-pre input{padding-left:22px!important}
+.del-entry{background:none;border:none;color:var(--g400);cursor:pointer;font-size:16px;padding:8px 4px;line-height:1;flex-shrink:0;transition:color .12s}
+.del-entry:hover{color:var(--red)}
+.exp-row{display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--g100)}
+.exp-row:last-child{border-bottom:none}
+.exp-lbl{font-size:13px;color:var(--g700)}
+.exp-inp-wrap{position:relative;width:120px}
+.exp-inp-wrap span{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:var(--g400);font-size:13px;pointer-events:none}
+.exp-inp-wrap input{width:100%;height:34px;padding:0 10px 0 22px;border:1.5px solid var(--g200);border-radius:6px;font-family:'DM Sans',sans-serif;font-size:13px;text-align:right;outline:none;transition:border .13s}
+.exp-inp-wrap input:focus{border-color:var(--blue)}
+.fin-add-btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border:1.5px dashed var(--g300);border-radius:8px;background:transparent;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;color:var(--g500);cursor:pointer;transition:all .13s;width:100%;justify-content:center;margin-top:4px}
+.fin-add-btn:hover{border-color:var(--navy);color:var(--navy);background:var(--g50)}
+.ef{cursor:pointer;border-radius:4px;padding:2px 5px;margin:-2px -5px;transition:background .12s;min-width:60px;display:inline-block}
+.ef:hover{background:var(--g100)}
+.ef.editing{display:none}
+.ef-input{display:none;width:100%;padding:4px 7px;border:1.5px solid var(--blue);border-radius:5px;font-family:"DM Sans",sans-serif;font-size:13.5px;color:var(--g900);font-weight:500;background:white;outline:none}
+.ef-input.active{display:inline-block}
+.ef-wrap{position:relative;display:flex;align-items:center;gap:6px}
+/* ── Card layout ─────────────────────────────────────── */
+.app-page{display:flex;flex-direction:column;gap:18px;margin-bottom:24px}
+.app-card{background:white;border:1px solid var(--g200);border-radius:12px;box-shadow:var(--sh);overflow:hidden}
+.app-card-title{font-size:13px;font-weight:700;color:var(--navy);padding:16px 22px;border-bottom:1px solid var(--g100)}
+.app-card-body{padding:18px 22px 20px;display:grid;grid-template-columns:1fr 1fr;gap:14px 24px}
+.app-card-body.w1{grid-template-columns:1fr}
+.app-card-body.w3{grid-template-columns:1fr 1fr 1fr}
+.app-sub{font-size:13px;font-weight:700;color:var(--navy);grid-column:1/-1;padding:14px 0 2px;margin-top:6px;border-top:2px solid var(--g100);display:flex;align-items:center;gap:10px}
+.app-sub::after{content:'';flex:1;height:1px;background:var(--g200)}
+.app-sub:first-child{padding-top:0;margin-top:0;border-top:none}
+.app-span{grid-column:1/-1}
+.fld{display:flex;flex-direction:column;gap:5px}
+.fld label{font-size:11px;font-weight:600;color:var(--g500);letter-spacing:.3px}
+.fld .fval{font-size:13.5px;color:var(--g900);font-weight:500;padding:7px 10px;border:1.5px solid var(--g200);border-radius:7px;min-height:37px;display:flex;align-items:center;cursor:text;transition:border .13s;background:white;word-break:break-word;line-height:1.4}
+.fld .fval:hover{border-color:var(--blue)}
+.fld .fval.empty{color:var(--g300)}
+.fld .fval.ef-active-hide{display:none}
+.fld input.finput,.fld select.finput{display:none;width:100%;padding:7px 10px;border:1.5px solid var(--blue);border-radius:7px;font-family:'DM Sans',sans-serif;font-size:13.5px;color:var(--g900);background:white;outline:none;min-height:37px;box-shadow:0 0 0 3px rgba(26,86,219,.1)}
+.fld input.finput.on,.fld select.finput.on{display:block}
+.co-bar{display:flex;align-items:center;justify-content:space-between;padding:14px 22px;background:var(--g50);border:1px solid var(--g200);border-radius:12px;box-shadow:var(--sh)}
+.co-bar-lbl{font-size:13px;font-weight:700;color:var(--navy)}
+.edit-indicator{position:fixed;bottom:24px;right:24px;background:var(--blue);color:white;padding:8px 16px;border-radius:20px;font-size:12px;font-weight:600;opacity:0;transition:opacity .3s;pointer-events:none;z-index:200}
+.edit-indicator.show{opacity:1}
+.print-header{display:none;align-items:center;justify-content:space-between;padding:0 0 16px;border-bottom:2px solid #0f2140;margin-bottom:20px}
+.print-footer{display:none;margin-top:24px;padding-top:12px;border-top:1px solid #e2e8f0;font-size:10px;color:#94a3b8;text-align:center}
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="logo" onclick="showList()">
+    <div class="logo-badge"><svg viewBox="0 0 24 24" fill="none" stroke="var(--navy)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg></div>
+    <span class="logo-name">JLP Financial</span>
+    <span class="logo-sub">CRM</span>
+  </div>
+  <div style="display:flex;gap:10px">
+    <a href="jlp-application-v3.html" class="hbtn">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/></svg>
+      New Application
+    </a>
+    <button class="hbtn" onclick="loadSampleData()">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+      Sample Data
+    </button>
+    <button class="hbtn" onclick="exportCSV()">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      Export CSV
+    </button>
+    <button class="hbtn" onclick="showList()">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1,4 1,10 7,10"/><path d="M3.51 15a9 9 0 1 0 .49-4.87"/></svg>
+      Refresh
+    </button>
+  </div>
+</header>
+
+<div class="layout">
+  <aside class="sidebar">
+    <div class="nav-s">Menu</div>
+    <div class="nav-i active" id="nav-applications" data-view="applications" onclick="showList()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>Applications
+    </div>
+    <div class="nav-i" id="nav-pipeline" data-view="pipeline" onclick="showPipeline()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/><line x1="2" y1="20" x2="22" y2="20"/></svg>Pipeline
+    </div>
+    <div class="nav-s">Filter</div>
+    <div class="nav-i" data-filter="New" onclick="filterNav('New')"><span class="ndot" style="background:#1d4ed8"></span>New</div>
+    <div class="nav-i" data-filter="Review" onclick="filterNav('Review')"><span class="ndot" style="background:#b45309"></span>In Review</div>
+    <div class="nav-i" data-filter="Approved" onclick="filterNav('Approved')"><span class="ndot" style="background:#16a34a"></span>Approved</div>
+    <div class="nav-i" data-filter="Declined" onclick="filterNav('Declined')"><span class="ndot" style="background:#dc2626"></span>Declined</div>
+    <div class="nav-i" data-filter="" onclick="filterNav('')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>All
+    </div>
+  </aside>
+
+  <main class="main" id="listView"><div class="loading">Loading applications…</div></main>
+  <div id="detailView"></div>
+</div>
+
+<div class="toast" id="toast"></div>
+<div class="edit-indicator" id="editIndicator">✓ Saved</div>
+
+<script>
+// ── CONFIG ──
+const SURL = 'https://gxwwcrcllhaaoewgcbeo.supabase.co';
+const SKEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imd4d3djcmNsbGhhYW9ld2djYmVvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI1MjE4MTIsImV4cCI6MjA4ODA5NzgxMn0.twL-AmGGqfH29Nsl2p-Ezqi5zJ_h-3TOrguFAdjiET8';
+const SH = {'apikey':SKEY,'Authorization':'Bearer '+SKEY,'Content-Type':'application/json'};
+
+// ── STATE ──
+let apps = [], filtered = [], curPage = 1, PER = 15, curView = 'applications', curDetailId = null;
+
+// ── SUPABASE ──
+async function dbLoad() {
+  const res = await fetch(SURL+'/rest/v1/applications?select=*&order=submitted_at.desc', {headers:SH});
+  const rows = await res.json();
+  if (!Array.isArray(rows)) { console.error('Load error', rows); return; }
+  apps = rows.map(r => ({
+    id: r.app_id, _rid: r.id,
+    submittedAt: r.submitted_at, status: r.status||'New', notes: r.notes||'',
+    purpose: r.purpose, finType: r.fin_type, applicantType: r.applicant_type,
+    loanAmount: r.loan_amount, loanDuration: r.loan_duration, balloon: r.balloon,
+    make: r.make, model: r.model, year: r.year, rego: r.rego, vin: r.vin,
+    condition: r.condition, purchaseFrom: r.purchase_from,
+    a1: r.a1||{}, a2: r.a2||null, biz: r.biz||null,
+    assets: Array.isArray(r.assets)?r.assets:[],
+    liabilities: Array.isArray(r.liabilities)?r.liabilities:[],
+    expenses: Array.isArray(r.expenses)?r.expenses:[],
+    documents: Array.isArray(r.documents)?r.documents:[],
+  }));
+}
+
+async function dbPatch(id, data) {
+  await fetch(SURL+'/rest/v1/applications?app_id=eq.'+encodeURIComponent(id), {
+    method:'PATCH', headers:{...SH,'Prefer':'return=minimal'}, body:JSON.stringify(data)
+  });
+}
+
+async function dbDelete(id) {
+  await fetch(SURL+'/rest/v1/applications?app_id=eq.'+encodeURIComponent(id), {
+    method:'DELETE', headers:SH
+  });
+}
+
+async function dbInsert(payload) {
+  const res = await fetch(SURL+'/rest/v1/applications', {
+    method:'POST', headers:{...SH,'Prefer':'return=minimal'}, body:JSON.stringify(payload)
+  });
+  return res.ok;
+}
+
+// ── HELPERS ──
+function getName(a) { return [a.a1?.firstName,a.a1?.lastName].filter(Boolean).join(' ')||'Unknown Applicant'; }
+function fDate(iso) { if(!iso) return '—'; const d=new Date(iso); return d.toLocaleDateString('en-AU',{day:'numeric',month:'short',year:'numeric'})+' '+d.toLocaleTimeString('en-AU',{hour:'2-digit',minute:'2-digit'}); }
+function fMoney(v) { return v?'$'+Number(v).toLocaleString('en-AU'):'—'; }
+function badge(s) {
+  const m={New:'b-New',Review:'b-Review',Approved:'b-Approved',Declined:'b-Declined',Submitted:'b-Submitted'};
+  return `<span class="badge ${m[s]||'b-New'}"><span class="bdot"></span>${s||'New'}</span>`;
+}
+function df(label, val, fieldPath) {
+  const e = !val || val === '—' || val === null || val === undefined;
+  const display = e ? '' : val;
+  if (!fieldPath) {
+    return `<div class="fld"><label>${label}</label><div class="fval empty" style="cursor:default">${e?'—':display}</div></div>`;
+  }
+  const eid = 'ef_' + fieldPath.replace(/[^a-z0-9]/gi,'_');
+  return `<div class="fld">
+    <label>${label}</label>
+    <div class="fval${e?' empty':''}" id="${eid}_v" data-field="${fieldPath}" title="Click to edit">${e?'—':display}</div>
+    <input class="finput" id="${eid}_i" data-field="${fieldPath}" value="${e?'':display}" placeholder="${label}">
+  </div>`;
+}
+
+// Select field
+function dfs(label, val, fieldPath, options) {
+  const e = !val || val === '—' || val === null || val === undefined;
+  const display = e ? '' : val;
+  if (!fieldPath) {
+    return `<div class="fld"><label>${label}</label><div class="fval empty" style="cursor:default">${e?'—':display}</div></div>`;
+  }
+  const eid = 'efs_' + fieldPath.replace(/[^a-z0-9]/gi,'_');
+  const opts = options.map(o => `<option value="${o}" ${o===val?'selected':''}>${o}</option>`).join('');
+  return `<div class="fld">
+    <label>${label}</label>
+    <div class="fval ef-sel${e?' empty':''}" id="${eid}_v" data-field="${fieldPath}" style="cursor:pointer;justify-content:space-between">
+      <span>${e?'—':display}</span>
+      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="opacity:.4;flex-shrink:0"><polyline points="6,9 12,15 18,9"/></svg>
+    </div>
+    <select class="finput ef-select" id="${eid}_s" data-field="${fieldPath}" data-valel="${eid}_v">
+      <option value="">— Select —</option>${opts}
+    </select>
+  </div>`;
+}
+function dicon(path) {
+  return `<div class="dcard-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${path}</svg></div>`;
+}
+function dcard(iconPath, title, body) {
+  return `<div class="dcard"><div class="dcard-head">${dicon(iconPath)}<div class="dcard-title">${title}</div></div><div class="dcard-body">${body}</div></div>`;
+}
+function showToast(msg) {
+  const t=document.getElementById('toast');
+  t.textContent=msg; t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2800);
+}
+
+// ── STATS ──
+function renderStats() {
+  const t=apps.length, bs=s=>apps.filter(a=>(a.status||'New')===s).length;
+  const tv=apps.reduce((s,a)=>s+(parseFloat((a.loanAmount||'').replace(/[^0-9.]/g,''))||0),0);
+  return `<div class="stats">
+    <div class="stat"><div class="stat-val">${t}</div><div class="stat-lbl">Total Applications</div></div>
+    <div class="stat"><div class="stat-val" style="color:#1d4ed8">${bs('New')}</div><div class="stat-lbl">New</div></div>
+    <div class="stat"><div class="stat-val" style="color:#b45309">${bs('Review')}</div><div class="stat-lbl">In Review</div></div>
+    <div class="stat"><div class="stat-val" style="color:#16a34a">${bs('Approved')}</div><div class="stat-lbl">Approved</div></div>
+    <div class="stat"><div class="stat-val">${tv>0?'$'+tv.toLocaleString('en-AU'):'—'}</div><div class="stat-lbl">Total Loan Value</div></div>
+  </div>`;
+}
+
+// ── LIST ──
+function applyFilters() {
+  const q=(document.getElementById('si')?.value||'').toLowerCase();
+  const st=document.getElementById('sf')?.value||'';
+  const tp=document.getElementById('tf')?.value||'';
+  filtered=apps.filter(a=>{
+    const n=getName(a).toLowerCase();
+    const ms=!q||n.includes(q)||(a.id||'').toLowerCase().includes(q)||(a.finType||'').toLowerCase().includes(q)||(a.a1?.email||'').toLowerCase().includes(q)||(a.a1?.mobile||'').includes(q);
+    return ms&&(!st||(a.status||'New')===st)&&(!tp||a.purpose===tp);
+  });
+  curPage=1; renderTable();
+}
+function renderTable() {
+  const s=(curPage-1)*PER, pg=filtered.slice(s,s+PER), tp=Math.ceil(filtered.length/PER);
+  const rows=pg.length?pg.map(a=>`<tr data-id="${a.id}">
+    <td><div class="tname">${getName(a)}</div><div class="tid">${a.id||''}</div></td>
+    <td>${badge(a.status||'New')}</td>
+    <td>${a.finType||'—'}</td>
+    <td style="text-transform:capitalize">${a.purpose||'—'}</td>
+    <td class="tamt">${a.loanAmount||'—'}</td>
+    <td>${a.a1?.mobile||'—'}</td>
+    <td style="font-size:12px;color:var(--g500)">${fDate(a.submittedAt)}</td>
+  </tr>`).join(''):`<tr class="empty-row"><td colspan="7">No applications found</td></tr>`;
+  const pnums=Array.from({length:tp},(_,i)=>i+1).map(n=>`<button class="pbtn ${n===curPage?'active':''}" data-page="${n}">${n}</button>`).join('');
+  document.getElementById('tbody').innerHTML=rows;
+  document.getElementById('pinfo').textContent=`Showing ${Math.min(s+1,filtered.length)}–${Math.min(s+PER,filtered.length)} of ${filtered.length}`;
+  document.getElementById('pnums').innerHTML=pnums;
+}
+function renderListHTML() {
+  return `${renderStats()}
+    <div class="toolbar">
+      <div class="srch"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input id="si" placeholder="Search name, ID, mobile, email…"></div>
+      <select class="fsel" id="sf"><option value="">All Statuses</option><option>New</option><option>Review</option><option>Approved</option><option>Declined</option><option>Submitted</option></select>
+      <select class="fsel" id="tf"><option value="">All Types</option><option value="personal">Personal</option><option value="business">Business</option></select>
+      <button class="tbtn" id="btnClear"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><polyline points="1,4 1,10 7,10"/><path d="M3.51 15a9 9 0 1 0 .49-4.87"/></svg>Clear</button>
+    </div>
+    <div class="twrap"><table>
+      <thead><tr><th>Applicant</th><th>Status</th><th>Finance Type</th><th>Purpose</th><th>Loan Amount</th><th>Mobile</th><th>Submitted</th></tr></thead>
+      <tbody id="tbody"></tbody>
+    </table>
+    <div class="pgn"><span id="pinfo"></span><div class="pbtns" id="pnums"></div></div></div>`;
+}
+async function showList() { // returns promise
+  document.getElementById('listView').style.display='';
+  const dv=document.getElementById('detailView');dv.classList.remove('show');dv.innerHTML='';
+  document.getElementById('listView').innerHTML='<div class="loading">Loading…</div>';
+  await dbLoad();
+  document.getElementById('listView').innerHTML=renderListHTML();
+  bindListEvents();
+  applyFilters();
+}
+function bindListEvents() {
+  document.getElementById('si').addEventListener('input', applyFilters);
+  document.getElementById('sf').addEventListener('change', applyFilters);
+  document.getElementById('tf').addEventListener('change', applyFilters);
+  document.getElementById('btnClear').addEventListener('click', ()=>{
+    document.getElementById('si').value='';
+    document.getElementById('sf').value='';
+    document.getElementById('tf').value='';
+    applyFilters();
+  });
+  document.getElementById('tbody').addEventListener('click', e=>{
+    const tr=e.target.closest('tr[data-id]');
+    if(tr) openDetail(tr.dataset.id);
+  });
+  document.getElementById('pnums').addEventListener('click', e=>{
+    const btn=e.target.closest('[data-page]');
+    if(btn){curPage=parseInt(btn.dataset.page);renderTable();}
+  });
+}
+
+// ── PIPELINE ──
+async function showPipeline() {
+  document.getElementById('listView').style.display='';
+  document.getElementById('detailView').classList.remove('show');
+  document.getElementById('detailView').innerHTML='';
+  document.getElementById('listView').innerHTML='<div class="loading">Loading…</div>';
+  await dbLoad();
+  const statuses=['New','Review','Approved','Declined'];
+  const dotC={New:'#1d4ed8',Review:'#b45309',Approved:'#16a34a',Declined:'#dc2626'};
+  const cols=statuses.map(s=>{
+    const items=apps.filter(a=>(a.status||'New')===s);
+    const cards=items.length?items.map(a=>`<div class="pipe-card" data-id="${a.id}">
+      <div style="font-weight:600;font-size:13px;color:var(--g900);margin-bottom:3px">${getName(a)}</div>
+      <div style="font-size:11.5px;color:var(--g500);margin-bottom:5px">${a.finType||'—'} · ${(a.purpose||'').charAt(0).toUpperCase()+(a.purpose||'').slice(1)}</div>
+      <div style="font-weight:600;color:var(--navy);font-size:13px">${a.loanAmount||'—'}</div>
+      <div style="font-size:11px;color:var(--g400);margin-top:4px">${fDate(a.submittedAt)}</div>
+    </div>`).join(''):`<div style="color:var(--g400);font-size:12px;font-style:italic;padding:6px 0">No applications</div>`;
+    return `<div class="pipe-col">
+      <div class="pipe-col-head">
+        <span style="width:8px;height:8px;border-radius:50%;background:${dotC[s]};display:inline-block"></span>
+        <span style="font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--g600)">${s}</span>
+        <span class="pipe-cnt">${items.length}</span>
+      </div>${cards}</div>`;
+  }).join('');
+  document.getElementById('listView').innerHTML=`${renderStats()}<div class="pipe-cols" id="pipeCols">${cols}</div>`;
+  document.getElementById('pipeCols').addEventListener('click', e=>{
+    const card=e.target.closest('[data-id]');
+    if(card) openDetail(card.dataset.id);
+  });
+}
+
+// ── DETAIL ──
+const CRM_ASSET_CATS = ['Property','Vehicle','Savings','Shares/Investments','Superannuation','Other'];
+const CRM_LIAB_CATS = ['Credit Card','Personal Loan','Car Loan','Buy Now Pay Later','Mortgage','HECS/HELP','Other'];
+const CRM_EXPENSES = ['Rent / Board','Groceries & Dining Out','Utilities & Rates','Telephone & Internet','Recreation & Entertainment','Clothing & Personal Care','Medical & Health','Transport','Vehicle Running Costs','Education','Childcare','Insurance'];
+
+function buildAssetEntries(arr) {
+  if (!arr || !arr.length) return '<div id="assetEmpty" style="color:var(--g400);font-size:13px;font-style:italic;padding:8px 0">No assets added yet</div>';
+  return arr.map((r,i) => {
+    const opts = CRM_ASSET_CATS.map(c=>`<option ${c===r.category?'selected':''}>${c}</option>`).join('');
+    return `<div class="entry" data-idx="${i}">
+      <div class="entry-fields">
+        <div class="entry-fld" style="min-width:140px"><div class="entry-lbl">Category</div><select class="asset-cat">${opts}</select></div>
+        <div class="entry-fld grow"><div class="entry-lbl">Description</div><input type="text" class="asset-desc" value="${r.description||''}" placeholder="e.g. Family Home"></div>
+        <div class="entry-fld" style="min-width:110px"><div class="entry-lbl">Value ($)</div><div class="entry-pre"><span>$</span><input type="number" class="asset-val" value="${r.value||''}" placeholder="0"></div></div>
+      </div>
+      <button class="del-entry" data-type="asset">×</button>
+    </div>`;
+  }).join('');
+}
+
+function buildLiabEntries(arr) {
+  if (!arr || !arr.length) return '<div id="liabEmpty" style="color:var(--g400);font-size:13px;font-style:italic;padding:8px 0">No liabilities added yet</div>';
+  return arr.map((r,i) => {
+    const opts = CRM_LIAB_CATS.map(c=>`<option ${c===r.category?'selected':''}>${c}</option>`).join('');
+    const isCC = r.category === 'Credit Card';
+    return `<div class="entry" data-idx="${i}">
+      <div class="entry-fields">
+        <div class="entry-fld" style="min-width:140px"><div class="entry-lbl">Category</div><select class="liab-cat" onchange="toggleCCLimit(this)">${opts}</select></div>
+        <div class="entry-fld grow"><div class="entry-lbl">Description</div><input type="text" class="liab-desc" value="${r.description||''}" placeholder="e.g. ANZ Home Loan"></div>
+        <div class="entry-fld" style="min-width:100px"><div class="entry-lbl">Balance ($)</div><div class="entry-pre"><span>$</span><input type="number" class="liab-bal" value="${r.balance||''}" placeholder="0"></div></div>
+        <div class="entry-fld" style="min-width:100px;${isCC?'':'display:none'}" id="ccl_${i}"><div class="entry-lbl">Credit Limit ($)</div><div class="entry-pre"><span>$</span><input type="number" class="liab-cl" value="${r.creditLimit||''}" placeholder="0"></div></div>
+        <div class="entry-fld" style="min-width:110px"><div class="entry-lbl">Monthly Repayment ($)</div><div class="entry-pre"><span>$</span><input type="number" class="liab-rep" value="${r.repayment||''}" placeholder="0"></div></div>
+      </div>
+      <button class="del-entry" data-type="liab">×</button>
+    </div>`;
+  }).join('');
+}
+
+function buildExpenseRows(arr) {
+  return CRM_EXPENSES.map(cat => {
+    const found = (arr||[]).find(e => e.label === cat);
+    return `<div class="exp-row">
+      <div class="exp-lbl">${cat}</div>
+      <div class="exp-inp-wrap"><span>$</span><input type="number" class="exp-amt" data-label="${cat}" value="${found?.amount||''}" placeholder="0"></div>
+    </div>`;
+  }).join('');
+}
+
+function toggleCCLimit(sel) {
+  const entry = sel.closest('.entry');
+  const ccl = entry.querySelector('[id^="ccl_"]');
+  if (ccl) ccl.style.display = sel.value === 'Credit Card' ? 'flex' : 'none';
+}
+
+async function saveFinData(type) {
+  const a = apps.find(x => x.id === curDetailId);
+  if (!a) return;
+  if (type === 'assets') {
+    a.assets = [...document.querySelectorAll('#assetsList .entry')].map(e => ({
+      category: e.querySelector('.asset-cat')?.value||'',
+      description: e.querySelector('.asset-desc')?.value||'',
+      value: e.querySelector('.asset-val')?.value||''
+    }));
+    await dbPatch(curDetailId, {assets: a.assets});
+  } else if (type === 'liabs') {
+    a.liabilities = [...document.querySelectorAll('#liabsList .entry')].map(e => ({
+      category: e.querySelector('.liab-cat')?.value||'',
+      description: e.querySelector('.liab-desc')?.value||'',
+      balance: e.querySelector('.liab-bal')?.value||'',
+      creditLimit: e.querySelector('.liab-cl')?.value||'',
+      repayment: e.querySelector('.liab-rep')?.value||''
+    }));
+    await dbPatch(curDetailId, {liabilities: a.liabilities});
+  } else if (type === 'exp') {
+    a.expenses = [...document.querySelectorAll('.exp-amt')].map(inp => ({
+      label: inp.dataset.label, amount: inp.value
+    })).filter(e => e.amount && e.amount !== '0');
+    await dbPatch(curDetailId, {expenses: a.expenses});
+  }
+  const ind = document.getElementById('editIndicator');
+  ind.classList.add('show');
+  clearTimeout(editSaveTimer);
+  editSaveTimer = setTimeout(() => ind.classList.remove('show'), 1800);
+}
+
+function getDocUrl(path) {
+  return 'https://gxwwcrcllhaaoewgcbeo.supabase.co/storage/v1/object/public/documents/' + path;
+}
+
+function buildDocListHTML(a) {
+  const docs = Array.isArray(a.documents) ? a.documents.filter(d => d && d.path) : [];
+  if (!docs.length) return '<div style="color:var(--g400);font-size:13px;font-style:italic;padding:4px 0">No documents uploaded yet</div>';
+  return docs.map((d,i) => {
+    const ext = (d.name||'').split('.').pop().toLowerCase();
+    const isImg = ['jpg','jpeg','png','heic','heif','gif','webp'].includes(ext);
+    const url = getDocUrl(d.path);
+    return `<div class="doc-file-item">
+      <div class="doc-file-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/></svg></div>
+      <div class="doc-file-name" title="${d.name}">${d.name||'Document'}</div>
+      <div class="doc-file-actions">
+        ${isImg ? `<a class="doc-dl-btn" href="${url}" target="_blank">View</a>` : ''}
+        <a class="doc-dl-btn" href="${url}" target="_blank" download="${d.name}">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Download
+        </a>
+        <button class="doc-del-btn" data-docindex="${i}" data-docpath="${d.path}">✕</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+async function handleDocFiles(files) {
+  if (!files || !files.length) return;
+  const a = apps.find(x => x.id === curDetailId);
+  if (!a) return;
+  const statusEl = document.getElementById('docUploadStatus');
+  statusEl.innerHTML = '<div style="color:var(--amber);font-size:12px;margin-top:6px">Uploading ' + files.length + ' file(s)…</div>';
+  const newDocs = Array.isArray(a.documents) ? [...a.documents] : [];
+  let uploaded = 0;
+  for (const file of Array.from(files)) {
+    try {
+      const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, '_');
+      const path = curDetailId + '/' + Date.now() + '_' + safeName;
+      const res = await fetch('https://gxwwcrcllhaaoewgcbeo.supabase.co/storage/v1/object/documents/' + path, {
+        method: 'POST',
+        headers: { 'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imd4d3djcmNsbGhhYW9ld2djYmVvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI1MjE4MTIsImV4cCI6MjA4ODA5NzgxMn0.twL-AmGGqfH29Nsl2p-Ezqi5zJ_h-3TOrguFAdjiET8', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imd4d3djcmNsbGhhYW9ld2djYmVvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI1MjE4MTIsImV4cCI6MjA4ODA5NzgxMn0.twL-AmGGqfH29Nsl2p-Ezqi5zJ_h-3TOrguFAdjiET8', 'Content-Type': file.type||'application/octet-stream', 'x-upsert': 'true' },
+        body: file
+      });
+      if (res.ok) { newDocs.push({ name: file.name, path: path }); uploaded++; }
+      else { console.warn('Upload failed', file.name, await res.text()); }
+    } catch(e) { console.warn('Upload error', e); }
+  }
+  a.documents = newDocs;
+  await dbPatch(curDetailId, { documents: newDocs });
+  document.getElementById('docFileList').innerHTML = buildDocListHTML(a);
+  statusEl.innerHTML = uploaded > 0
+    ? '<div style="color:var(--green);font-size:12px;margin-top:6px">✓ ' + uploaded + ' file(s) uploaded</div>'
+    : '<div style="color:var(--red);font-size:12px;margin-top:6px">Upload failed — check console</div>';
+  setTimeout(() => { if(statusEl) statusEl.innerHTML=''; }, 3000);
+}
+
+function openDetail(id) {
+  const a=apps.find(x=>x.id===id);
+  if(!a) return;
+  curDetailId=id;
+  const name=getName(a);
+  const ssBtns=['New','Review','Approved','Declined','Submitted'].map(s=>
+    `<button class="ss-btn ss-${s} ${(a.status||'New')===s?'on':''}" data-status="${s}">${s}</button>`).join('');
+  const aArr=Array.isArray(a.assets)?a.assets:[];
+  const lArr=Array.isArray(a.liabilities)?a.liabilities:[];
+  const eArr=Array.isArray(a.expenses)?a.expenses:[];
+  const assetRows=aArr.length?aArr.map(r=>`<tr><td>${r.category||'—'}</td><td>${r.description||'—'}</td><td class="r">${r.value?fMoney(r.value):'—'}</td></tr>`).join(''):`<tr><td colspan="3" class="mt-empty">None recorded</td></tr>`;
+  const liabRows=lArr.length?lArr.map(r=>`<tr><td>${r.category||'—'}</td><td>${r.description||'—'}</td><td class="r">${r.balance?fMoney(r.balance):'—'}</td><td class="r">${r.repayment?fMoney(r.repayment)+'/mo':'—'}</td></tr>`).join(''):`<tr><td colspan="4" class="mt-empty">None recorded</td></tr>`;
+  const expRows=eArr.filter(e=>e.amount&&e.amount!=='0').length?eArr.filter(e=>e.amount&&e.amount!=='0').map(e=>`<tr><td>${e.label}</td><td class="r">${fMoney(e.amount)}/mo</td></tr>`).join(''):`<tr><td colspan="2" class="mt-empty">None recorded</td></tr>`;
+  const bizHTML=dcard('<rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>','Business Details',
+    `${df('ABN',a.biz?.abn,'biz.abn')}${df('Company Name',a.biz?.name,'biz.name')}${df('Industry',a.biz?.industry,'biz.industry')}${df('Entity Type',a.biz?.entity,'biz.entity')}${df('ABN Duration',a.biz?.abnDur,'biz.abnDur')}
+     ${df('Monthly Revenue',a.biz?.revenue,'biz.revenue')}${df('Monthly Expenses',a.biz?.expenses,'biz.expenses')}
+     ${df('Street',a.biz?.street,'biz.street')}${df('Suburb',a.biz?.suburb,'biz.suburb')}${df('State',a.biz?.state,'biz.state')}`);
+
+
+  document.getElementById('detailView').innerHTML=`
+    <div class="det-topbar">
+      <button class="back-btn" id="detBack"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="15" height="15"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12,19 5,12 12,5"/></svg>Back</button>
+      <span style="color:rgba(255,255,255,.3)">/</span>
+      <span style="color:white;font-size:14px;font-weight:600">${name}</span>
+      <div style="margin-left:auto"><button class="hbtn" id="detPrint"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6,9 6,2 18,2 18,9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>Print</button></div>
+    </div>
+    <div class="det-body">
+      <div class="det-hero">
+        <div>
+          <div class="det-hero-name">${name}</div>
+          <div class="det-hero-meta">
+            <span>${a.finType||'—'} · ${(a.purpose||'').charAt(0).toUpperCase()+(a.purpose||'').slice(1)}</span>
+            <span>ID: ${a.id}</span>
+            <span>Submitted: ${fDate(a.submittedAt)}</span>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:flex-end;gap:10px">
+          <div class="loan-pill"><div class="loan-pill-lbl">Loan Amount</div><div class="loan-pill-amt">${a.loanAmount||'—'}</div></div>
+        </div>
+      </div>
+
+      <div class="ss-row" id="ssRow" style="margin-bottom:20px">${ssBtns}</div>
+
+      <div class="app-page">
+
+        <!-- STATUS + LOAN + ASSET -->
+        <div class="app-card">
+          <div class="app-card-title">Loan & Asset Details</div>
+          <div class="app-card-body w3">
+            <div class="app-sub">Loan</div>
+            ${df('Loan Amount',a.loanAmount,'loanAmount')}
+            ${dfs('Duration',a.loanDuration?a.loanDuration+' Year'+(a.loanDuration>1?'s':''):'','loanDuration',['1 Year','2 Years','3 Years','4 Years','5 Years','6 Years','7 Years'])}
+            ${dfs('Balloon',a.balloon||'0%','balloon',['0%','5%','10%','15%','20%','25%','30%'])}
+            <div class="app-sub">Asset</div>
+            ${df('Make',a.make,'make')}
+            ${df('Model',a.model,'model')}
+            ${df('Year',a.year,'year')}
+            ${dfs('Condition',a.condition,'condition',['New','Demo','Used'])}
+            ${df('Rego',a.rego,'rego')}
+            ${df('VIN',a.vin,'vin')}
+            ${dfs('Purchased From',a.purchaseFrom,'purchaseFrom',['Dealer','Private','Auction','Refinance'])}
+            ${df('Finance Type',a.finType,'finType')}
+          </div>
+        </div>
+
+        <!-- APPLICANT 1 -->
+        <div class="app-card">
+          <div class="app-card-title">Applicant 1</div>
+          <div class="app-card-body">
+            <div class="app-sub">Personal</div>
+            <div style="grid-column:1/-1;display:grid;grid-template-columns:0.5fr 1fr 1fr;gap:14px 24px">
+              ${dfs('Title',a.a1?.title,'a1.title',['Mr','Mrs','Ms','Miss','Dr','Prof'])}
+              ${df('First Name',a.a1?.firstName,'a1.firstName')}
+              ${df('Last Name',a.a1?.lastName,'a1.lastName')}
+            </div>
+            ${df('Email',a.a1?.email,'a1.email')}
+            ${df('Mobile',a.a1?.mobile,'a1.mobile')}
+            ${df('Date of Birth',a.a1?.dob,'a1.dob')}
+            ${dfs('Marital Status',a.a1?.marital,'a1.marital',['Single','Married','De Facto','Divorced','Widowed','Separated'])}
+            ${dfs('Residency',a.a1?.residency,'a1.residency',['Australian Citizen','New Zealand Citizen','Permanent Resident','Visa'])}
+            ${df('Dependents',a.a1?.dependents,'a1.dependents')}
+            <div id="a1VisaSection" style="display:contents">${a.a1?.residency==='Visa'?`${df('Visa Number',a.a1?.visaNo,'a1.visaNo')}${df('Visa Expiry',a.a1?.visaExp,'a1.visaExp')}`:''}</div>
+
+            <div class="app-sub">Identification</div>
+            <div id="a1LicFields" style="grid-column:1/-1;display:${a.a1?.noLic?'none':'grid'};grid-template-columns:1fr 1fr 1fr;gap:14px 24px">
+              ${df('Driver&#39;s Licence No.',a.a1?.licNo,'a1.licNo')}
+              ${df('Licence Expiry',a.a1?.licExp,'a1.licExp')}
+              ${df('Card No.',a.a1?.licCard,'a1.licCard')}
+            </div>
+            <div class="app-span">
+              <div class="no-lic-toggle" id="a1NoLicToggle" onclick="toggleNoLic('a1')" style="display:flex;align-items:center;gap:10px;cursor:pointer;padding:10px 14px;border:1.5px solid var(--g200);border-radius:8px;font-size:13px;font-weight:500;color:var(--g600);background:var(--g50);margin-top:4px;transition:all .13s;user-select:none">
+                <div id="a1NoLicChk" style="width:18px;height:18px;border:2px solid ${a.a1?.noLic?'var(--blue)':'var(--g300)'};border-radius:4px;display:flex;align-items:center;justify-content:center;flex-shrink:0;background:${a.a1?.noLic?'var(--blue)':'white'}">
+                  ${a.a1?.noLic?'<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20,6 9,17 4,12"/></svg>':''}
+                </div>
+                I don't have an Australian driver's licence
+              </div>
+            </div>
+            <div id="a1PassSection" style="display:${a.a1?.noLic?'contents':'none'}">
+              <div style="grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px 24px">
+                ${df('Passport No.',a.a1?.passNo,'a1.passNo')}
+                ${df('Passport Expiry',a.a1?.passExp,'a1.passExp')}
+                ${df('Country',a.a1?.passCountry,'a1.passCountry')}
+              </div>
+            </div>
+
+            <div class="app-sub">Address</div>
+            <div style="grid-column:1/-1;display:grid;grid-template-columns:1fr 0.5fr 0.5fr;gap:14px 24px">
+              ${dfs('Living Situation',a.a1?.living,'a1.living',['Own Home Outright','Own Home with Mortgage','Renting','Living with Parents','Other'])}
+              ${df('Years at Address',a.a1?.addrYrs,'a1.addrYrs')}
+              ${df('Months at Address',a.a1?.addrMos,'a1.addrMos')}
+            </div>
+            <div class="app-span">${df('Street',a.a1?.street,'a1.street')}</div>
+            <div style="grid-column:1/-1;display:grid;grid-template-columns:1fr 0.5fr 0.5fr;gap:14px 24px">
+              ${df('Suburb',a.a1?.suburb,'a1.suburb')}
+              ${df('State',a.a1?.state,'a1.state')}
+              ${df('Postcode',a.a1?.postcode,'a1.postcode')}
+            </div>
+            ${(parseInt(a.a1?.addrYrs)||0)<3?`
+            <div class="app-sub">Previous Address</div>
+            <div class="app-span">${df('Street',a.a1?.prevStreet,'a1.prevStreet')}</div>
+            <div style="grid-column:1/-1;display:grid;grid-template-columns:1fr 0.5fr 0.5fr;gap:14px 24px">
+              ${df('Suburb',a.a1?.prevSuburb,'a1.prevSuburb')}
+              ${df('State',a.a1?.prevState,'a1.prevState')}
+              ${df('Postcode',a.a1?.prevPost,'a1.prevPost')}
+            </div>
+            `:''}
+
+            <div class="app-sub">Employment & Income</div>
+            <div style="grid-column:1/-1;display:grid;grid-template-columns:1fr 0.5fr 0.5fr;gap:14px 24px">
+              ${dfs('Status',a.a1?.empStatus,'a1.empStatus',['Full Time','Part Time','Casual','Self-Employed','Centrelink','Retired','Other'])}
+              ${df('Years at Employer',a.a1?.empYrs,'a1.empYrs')}
+              ${df('Months at Employer',a.a1?.empMos,'a1.empMos')}
+            </div>
+            ${df('Employer',a.a1?.empName,'a1.empName')}
+            ${df('Employer Phone',a.a1?.empPhone,'a1.empPhone')}
+            ${a.a1?.empStatus==='Self-Employed'?df('ABN',a.a1?.abn,'a1.abn'):''}
+            <div style="grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px 24px">
+              ${df('Income',a.a1?.income,'a1.income')}
+              ${dfs('Frequency',a.a1?.incomeFreq,'a1.incomeFreq',['Weekly','Fortnightly','Monthly','Annually'])}
+              ${dfs('Tax Treatment',a.a1?.incomeTax,'a1.incomeTax',['Before Tax','After Tax'])}
+            </div>
+            ${(parseInt(a.a1?.empYrs)||0)<3?`
+            <div class="app-sub">Previous Employment</div>
+            <div style="grid-column:1/-1;display:grid;grid-template-columns:1fr 0.5fr 0.5fr;gap:14px 24px">
+              ${dfs('Previous Status',a.a1?.prevEmpStatus,'a1.prevEmpStatus',['Full Time','Part Time','Casual','Self-Employed','Other'])}
+              ${df('Years',a.a1?.prevEmpYrs,'a1.prevEmpYrs')}
+              ${df('Months',a.a1?.prevEmpMos,'a1.prevEmpMos')}
+            </div>
+            ${df('Previous Employer',a.a1?.prevEmpName,'a1.prevEmpName')}
+            ${df('Occupation',a.a1?.prevEmpOcc,'a1.prevEmpOcc')}
+            `:''}
+            <div class="app-sub">Additional Income</div>
+            <div class="app-span" id="a1OtherIncBlock">
+              <div class="otherinc-toggle" id="a1OtherIncToggle" onclick="toggleOtherInc('a1')" style="display:flex;align-items:center;gap:10px;cursor:pointer;padding:10px 14px;border:1.5px dashed var(--g300);border-radius:8px;font-size:13px;font-weight:600;color:var(--g500);background:var(--g50);transition:all .13s">
+                <div id="a1OtherIncChk" style="width:18px;height:18px;border:2px solid var(--g300);border-radius:4px;display:flex;align-items:center;justify-content:center;flex-shrink:0;background:${a.a1?.otherIncType?'var(--blue)':'white'};border-color:${a.a1?.otherIncType?'var(--blue)':'var(--g300)'}">
+                  ${a.a1?.otherIncType?'<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20,6 9,17 4,12"/></svg>':''}
+                </div>
+                I have additional income
+              </div>
+              <div id="a1OtherIncFields" style="display:${a.a1?.otherIncType?'grid':'none'};grid-template-columns:1fr 1fr;gap:14px 24px;margin-top:14px">
+                ${dfs('Income Type',a.a1?.otherIncType,'a1.otherIncType',['Investment','Centrelink','Rental Income','Other'])}
+                ${df('Monthly Amount',a.a1?.otherIncAmt,'a1.otherIncAmt')}
+                ${a.a1?.otherIncType==='Centrelink'||a.a1?.empStatus==='Centrelink'?df('Centrelink Amount',a.a1?.centrelink,'a1.centrelink'):''}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- BUSINESS -->
+        ${a.purpose==='business'?`
+        <div class="app-card">
+          <div class="app-card-title">Business Details</div>
+          <div class="app-card-body">
+            ${df('ABN',a.biz?.abn,'biz.abn')}
+            ${df('Company Name',a.biz?.name,'biz.name')}
+            ${df('Entity Type',a.biz?.entity,'biz.entity')}
+            ${df('Industry',a.biz?.industry,'biz.industry')}
+            ${df('ABN Duration',a.biz?.abnDur,'biz.abnDur')}
+            ${df('Monthly Revenue',a.biz?.revenue,'biz.revenue')}
+            ${df('Monthly Expenses',a.biz?.expenses,'biz.expenses')}
+            <div class="app-sub">Business Address</div>
+            <div class="app-span">${df('Street',a.biz?.street,'biz.street')}</div>
+            ${df('Suburb',a.biz?.suburb,'biz.suburb')}
+            ${df('State',a.biz?.state,'biz.state')}
+            ${df('Postcode',a.biz?.postcode,'biz.postcode')}
+          </div>
+        </div>`:''}
+
+        <!-- CO-BORROWER -->
+        <div class="co-bar" id="a2Wrapper">
+          <div class="co-bar-lbl">Applicant 2 — Co-Borrower</div>
+          ${a.applicantType==='co'
+            ? `<button id="removeA2Btn" style="padding:5px 14px;border:1px solid #fca5a5;background:var(--red-bg);color:var(--red);border-radius:6px;font-size:12px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif">Remove Co-Borrower</button>`
+            : `<button id="addA2Btn" style="padding:5px 14px;border:1px solid #93c5fd;background:#eff6ff;color:#1d4ed8;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif">+ Add Co-Borrower</button>`}
+        </div>
+        ${a.applicantType==='co'?`
+        <div class="app-card" id="a2Body">
+          <div class="app-card-title">Applicant 2</div>
+          <div class="app-card-body">
+            <div class="app-sub">Personal</div>
+            <div style="grid-column:1/-1;display:grid;grid-template-columns:0.5fr 1fr 1fr;gap:14px 24px">
+              ${dfs('Title',a.a2?.title,'a2.title',['Mr','Mrs','Ms','Miss','Dr','Prof'])}
+              ${df('First Name',a.a2?.firstName,'a2.firstName')}
+              ${df('Last Name',a.a2?.lastName,'a2.lastName')}
+            </div>
+            ${df('Email',a.a2?.email,'a2.email')}
+            ${df('Mobile',a.a2?.mobile,'a2.mobile')}
+            ${df('Date of Birth',a.a2?.dob,'a2.dob')}
+            ${dfs('Marital Status',a.a2?.marital,'a2.marital',['Single','Married','De Facto','Divorced','Widowed','Separated'])}
+            ${dfs('Residency',a.a2?.residency,'a2.residency',['Australian Citizen','New Zealand Citizen','Permanent Resident','Visa'])}
+            ${df('Dependents',a.a2?.dependents,'a2.dependents')}
+            <div id="a2VisaSection" style="display:contents">${a.a2?.residency==='Visa'?`${df('Visa Number',a.a2?.visaNo,'a2.visaNo')}${df('Visa Expiry',a.a2?.visaExp,'a2.visaExp')}`:''}</div>
+            <div class="app-sub">Identification</div>
+            <div id="a2LicFields" style="grid-column:1/-1;display:${a.a2?.noLic?'none':'grid'};grid-template-columns:1fr 1fr 1fr;gap:14px 24px">
+              ${df('Driver&#39;s Licence No.',a.a2?.licNo,'a2.licNo')}
+              ${df('Licence Expiry',a.a2?.licExp,'a2.licExp')}
+              ${df('Card No.',a.a2?.licCard,'a2.licCard')}
+            </div>
+            <div class="app-span">
+              <div class="no-lic-toggle" onclick="toggleNoLic('a2')" style="display:flex;align-items:center;gap:10px;cursor:pointer;padding:10px 14px;border:1.5px solid var(--g200);border-radius:8px;font-size:13px;font-weight:500;color:var(--g600);background:var(--g50);margin-top:4px;transition:all .13s;user-select:none">
+                <div id="a2NoLicChk" style="width:18px;height:18px;border:2px solid ${a.a2?.noLic?'var(--blue)':'var(--g300)'};border-radius:4px;display:flex;align-items:center;justify-content:center;flex-shrink:0;background:${a.a2?.noLic?'var(--blue)':'white'}">
+                  ${a.a2?.noLic?'<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20,6 9,17 4,12"/></svg>':''}
+                </div>
+                I don't have an Australian driver's licence
+              </div>
+            </div>
+            <div id="a2PassSection" style="display:${a.a2?.noLic?'contents':'none'}">
+              <div style="grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px 24px">
+                ${df('Passport No.',a.a2?.passNo,'a2.passNo')}
+                ${df('Passport Expiry',a.a2?.passExp,'a2.passExp')}
+                ${df('Country',a.a2?.passCountry,'a2.passCountry')}
+              </div>
+            </div>
+            <div class="app-sub">Address</div>
+            <div style="grid-column:1/-1;display:grid;grid-template-columns:1fr 0.5fr 0.5fr;gap:14px 24px">
+              ${dfs('Living Situation',a.a2?.living,'a2.living',['Own Home Outright','Own Home with Mortgage','Renting','Living with Parents','Other'])}
+              ${df('Years at Address',a.a2?.addrYrs,'a2.addrYrs')}
+              ${df('Months at Address',a.a2?.addrMos,'a2.addrMos')}
+            </div>
+            <div class="app-span">${df('Street',a.a2?.street,'a2.street')}</div>
+            <div style="grid-column:1/-1;display:grid;grid-template-columns:1fr 0.5fr 0.5fr;gap:14px 24px">
+              ${df('Suburb',a.a2?.suburb,'a2.suburb')}
+              ${df('State',a.a2?.state,'a2.state')}
+              ${df('Postcode',a.a2?.postcode,'a2.postcode')}
+            </div>
+            ${(parseInt(a.a2?.addrYrs)||0)<3?`
+            <div class="app-sub">Previous Address</div>
+            <div class="app-span">${df('Street',a.a2?.prevStreet,'a2.prevStreet')}</div>
+            <div style="grid-column:1/-1;display:grid;grid-template-columns:1fr 0.5fr 0.5fr;gap:14px 24px">
+              ${df('Suburb',a.a2?.prevSuburb,'a2.prevSuburb')}
+              ${df('State',a.a2?.prevState,'a2.prevState')}
+              ${df('Postcode',a.a2?.prevPost,'a2.prevPost')}
+            </div>
+            `:''}
+            <div class="app-sub">Employment & Income</div>
+            <div style="grid-column:1/-1;display:grid;grid-template-columns:1fr 0.5fr 0.5fr;gap:14px 24px">
+              ${dfs('Status',a.a2?.empStatus,'a2.empStatus',['Full Time','Part Time','Casual','Self-Employed','Centrelink','Retired','Other'])}
+              ${df('Years at Employer',a.a2?.empYrs,'a2.empYrs')}
+              ${df('Months at Employer',a.a2?.empMos,'a2.empMos')}
+            </div>
+            ${df('Employer',a.a2?.empName,'a2.empName')}
+            ${df('Employer Phone',a.a2?.empPhone,'a2.empPhone')}
+            ${a.a2?.empStatus==='Self-Employed'?df('ABN',a.a2?.abn,'a2.abn'):''}
+            <div style="grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px 24px">
+              ${df('Income',a.a2?.income,'a2.income')}
+              ${dfs('Frequency',a.a2?.incomeFreq,'a2.incomeFreq',['Weekly','Fortnightly','Monthly','Annually'])}
+              ${dfs('Tax Treatment',a.a2?.incomeTax,'a2.incomeTax',['Before Tax','After Tax'])}
+            </div>
+            ${(parseInt(a.a2?.empYrs)||0)<3?`
+            <div class="app-sub">Previous Employment</div>
+            <div style="grid-column:1/-1;display:grid;grid-template-columns:1fr 0.5fr 0.5fr;gap:14px 24px">
+              ${dfs('Previous Status',a.a2?.prevEmpStatus,'a2.prevEmpStatus',['Full Time','Part Time','Casual','Self-Employed','Other'])}
+              ${df('Years',a.a2?.prevEmpYrs,'a2.prevEmpYrs')}
+              ${df('Months',a.a2?.prevEmpMos,'a2.prevEmpMos')}
+            </div>
+            ${df('Previous Employer',a.a2?.prevEmpName,'a2.prevEmpName')}
+            ${df('Occupation',a.a2?.prevEmpOcc,'a2.prevEmpOcc')}
+            `:''}
+            <div class="app-sub">Additional Income</div>
+            <div class="app-span" id="a2OtherIncBlock">
+              <div class="otherinc-toggle" id="a2OtherIncToggle" onclick="toggleOtherInc('a2')" style="display:flex;align-items:center;gap:10px;cursor:pointer;padding:10px 14px;border:1.5px dashed var(--g300);border-radius:8px;font-size:13px;font-weight:600;color:var(--g500);background:var(--g50);transition:all .13s">
+                <div id="a2OtherIncChk" style="width:18px;height:18px;border:2px solid var(--g300);border-radius:4px;display:flex;align-items:center;justify-content:center;flex-shrink:0;background:${a.a2?.otherIncType?'var(--blue)':'white'};border-color:${a.a2?.otherIncType?'var(--blue)':'var(--g300)'}">
+                  ${a.a2?.otherIncType?'<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20,6 9,17 4,12"/></svg>':''}
+                </div>
+                I have additional income
+              </div>
+              <div id="a2OtherIncFields" style="display:${a.a2?.otherIncType?'grid':'none'};grid-template-columns:1fr 1fr;gap:14px 24px;margin-top:14px">
+                ${dfs('Income Type',a.a2?.otherIncType,'a2.otherIncType',['Investment','Centrelink','Rental Income','Other'])}
+                ${df('Monthly Amount',a.a2?.otherIncAmt,'a2.otherIncAmt')}
+                ${a.a2?.otherIncType==='Centrelink'||a.a2?.empStatus==='Centrelink'?df('Centrelink Amount',a.a2?.centrelink,'a2.centrelink'):''}
+              </div>
+            </div>
+          </div>
+        </div>`:''}
+
+        <!-- ASSETS & LIABILITIES -->
+        <div class="app-card">
+          <div class="app-card-title">Assets</div>
+          <div class="app-card-body w1">
+            <div id="assetsList">${buildAssetEntries(aArr)}</div>
+            <button class="fin-add-btn" id="addAssetBtn">+ Add Asset</button>
+          </div>
+        </div>
+        <div class="app-card">
+          <div class="app-card-title">Liabilities</div>
+          <div class="app-card-body w1">
+            <div id="liabsList">${buildLiabEntries(lArr)}</div>
+            <button class="fin-add-btn" id="addLiabBtn">+ Add Liability</button>
+          </div>
+        </div>
+        <div class="app-card">
+          <div class="app-card-title">Monthly Expenses</div>
+          <div class="app-card-body" style="grid-template-columns:1fr 1fr;gap:0 32px;padding:0 22px">
+            <div id="expensesList" style="display:contents">${buildExpenseRows(eArr)}</div>
+          </div>
+        </div>
+
+      <div class="dcard">
+        <div class="dcard-head">${dicon('<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/><path d="M12 18v-6"/><path d="M9 15h6"/>')}<div class="dcard-title">Documents</div></div>
+        <div class="dcard-body">
+          <div class="doc-file-list" id="docFileList">${buildDocListHTML(a)}</div>
+          <div class="doc-upload-area" id="docUploadArea">
+            <input type="file" id="docUploadInput" accept="image/*,.pdf,.heic,.heif" multiple style="display:none">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--g400)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom:8px"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            <div style="font-size:13px;font-weight:600;color:var(--g600)">Click or drag files to upload</div>
+            <div style="font-size:11px;color:var(--g400);margin-top:4px">PDF, JPG, PNG, HEIC supported</div>
+            <div id="docUploadStatus"></div>
+          </div>
+        </div>
+      </div>
+      <div style="height:18px"></div>
+
+      ${dcard('<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><line x1="16" y1="13" x2="8" y2="13"/>','Internal Notes',
+        `<textarea class="notes-area" id="detNotes" placeholder="Add notes…">${a.notes||''}</textarea>
+         <div class="act-row"><button class="save-btn" id="detSaveNotes">Save Notes</button><button class="del-btn" id="detDelete">Delete Application</button></div>`)}
+      <div style="height:40px"></div>
+    </div>`;
+
+  document.getElementById('listView').style.display='none';
+  document.getElementById('detailView').classList.add('show');
+  document.getElementById('detailView').scrollTop=0;
+
+  // Bind detail events
+  document.getElementById('detBack').addEventListener('click', ()=>showList());
+  initInlineEdit();
+
+  // Passport toggle - hide if licence entered
+  window.toggleNoLic = async function(who) {
+    const a = apps.find(x => x.id === curDetailId);
+    if (!a) return;
+    const obj = who === 'a1' ? (a.a1 = a.a1||{}) : (a.a2 = a.a2||{});
+    obj.noLic = !obj.noLic;
+    // Toggle licence fields and passport section
+    const licFields = document.getElementById(who + 'LicFields');
+    const passSection = document.getElementById(who + 'PassSection');
+    const chk = document.getElementById(who + 'NoLicChk');
+    if (licFields) licFields.style.display = obj.noLic ? 'none' : 'grid';
+    if (passSection) passSection.style.display = obj.noLic ? 'contents' : 'none';
+    if (chk) {
+      chk.style.background = obj.noLic ? 'var(--blue)' : 'white';
+      chk.style.borderColor = obj.noLic ? 'var(--blue)' : 'var(--g300)';
+      chk.innerHTML = obj.noLic ? '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20,6 9,17 4,12"/></svg>' : '';
+    }
+    const patch = who === 'a1' ? {a1: a.a1} : {a2: a.a2};
+    await dbPatch(curDetailId, patch);
+    showEditIndicator();
+  };
+
+  // ABN: show/hide based on employment status select
+  document.getElementById('detailView').addEventListener('change', e => {
+    if (!e.target.classList.contains('ef-select')) return;
+    const fp = e.target.dataset.field;
+    if (fp === 'a1.empStatus' || fp === 'a2.empStatus') {
+      const who = fp.split('.')[0];
+      openDetail(curDetailId); // re-render to apply conditional fields
+    }
+  });
+
+  // Other income toggle
+  window.toggleOtherInc = function(who) {
+    const fields = document.getElementById(who + 'OtherIncFields');
+    const chk = document.getElementById(who + 'OtherIncChk');
+    if (!fields) return;
+    const showing = fields.style.display !== 'none';
+    fields.style.display = showing ? 'none' : 'grid';
+    chk.style.background = showing ? 'white' : 'var(--blue)';
+    chk.style.borderColor = showing ? 'var(--g300)' : 'var(--blue)';
+    chk.innerHTML = showing ? '' : '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20,6 9,17 4,12"/></svg>';
+    if (showing) {
+      // Clear other income when unchecked
+      const a = apps.find(x => x.id === curDetailId);
+      if (a) { if(who==='a1'){a.a1.otherIncType='';a.a1.otherIncAmt='';a.a1.centrelink='';}else{a.a2.otherIncType='';a.a2.otherIncAmt='';a.a2.centrelink='';} }
+      dbPatch(curDetailId, who==='a1'?{a1:apps.find(x=>x.id===curDetailId)?.a1}:{a2:apps.find(x=>x.id===curDetailId)?.a2});
+    }
+  };
+
+  // Add / Remove co-borrower
+  const addA2Btn = document.getElementById('addA2Btn');
+  const removeA2Btn = document.getElementById('removeA2Btn');
+
+  if (addA2Btn) {
+    addA2Btn.addEventListener('click', async () => {
+      const a = apps.find(x => x.id === curDetailId);
+      if (!a) return;
+      a.applicantType = 'co';
+      a.a2 = {};
+      await dbPatch(curDetailId, {applicant_type: 'co', a2: {}});
+      openDetail(curDetailId);
+      showToast('Co-borrower added');
+    });
+  }
+
+  if (removeA2Btn) {
+    removeA2Btn.addEventListener('click', async () => {
+      if (!confirm('Remove co-borrower? All their details will be cleared.')) return;
+      const a = apps.find(x => x.id === curDetailId);
+      if (!a) return;
+      a.applicantType = 'solo';
+      a.a2 = null;
+      await dbPatch(curDetailId, {applicant_type: 'solo', a2: null});
+      openDetail(curDetailId);
+      showToast('Co-borrower removed');
+    });
+  }
+
+  // Assets/liabilities/expenses auto-save
+  let finSaveTimer = null;
+  function bindFinSave(listId, type) {
+    const el = document.getElementById(listId);
+    if (!el) return;
+    el.addEventListener('input', () => {
+      clearTimeout(finSaveTimer);
+      finSaveTimer = setTimeout(() => saveFinData(type), 800);
+    });
+    el.addEventListener('change', () => {
+      clearTimeout(finSaveTimer);
+      finSaveTimer = setTimeout(() => saveFinData(type), 800);
+    });
+    el.addEventListener('click', async e => {
+      if (e.target.closest('.del-entry')) {
+        e.target.closest('.entry').remove();
+        await saveFinData(type);
+      }
+    });
+  }
+  bindFinSave('assetsList', 'assets');
+  bindFinSave('liabsList', 'liabs');
+  document.getElementById('expensesList').addEventListener('input', () => {
+    clearTimeout(finSaveTimer);
+    finSaveTimer = setTimeout(() => saveFinData('exp'), 800);
+  });
+
+  document.getElementById('addAssetBtn').addEventListener('click', () => {
+    const empty = document.getElementById('assetEmpty');
+    if (empty) empty.remove();
+    const opts = CRM_ASSET_CATS.map(c=>`<option>${c}</option>`).join('');
+    const div = document.createElement('div');
+    div.className = 'entry';
+    div.innerHTML = `<div class="entry-fields">
+      <div class="entry-fld" style="min-width:140px"><div class="entry-lbl">Category</div><select class="asset-cat">${opts}</select></div>
+      <div class="entry-fld grow"><div class="entry-lbl">Description</div><input type="text" class="asset-desc" placeholder="e.g. Family Home"></div>
+      <div class="entry-fld" style="min-width:110px"><div class="entry-lbl">Value ($)</div><div class="entry-pre"><span>$</span><input type="number" class="asset-val" placeholder="0"></div></div>
+    </div><button class="del-entry" data-type="asset">×</button>`;
+    document.getElementById('assetsList').appendChild(div);
+    div.querySelector('input').focus();
+  });
+
+  document.getElementById('addLiabBtn').addEventListener('click', () => {
+    const empty = document.getElementById('liabEmpty');
+    if (empty) empty.remove();
+    const opts = CRM_LIAB_CATS.map(c=>`<option>${c}</option>`).join('');
+    const uid = Date.now();
+    const div = document.createElement('div');
+    div.className = 'entry';
+    div.innerHTML = `<div class="entry-fields">
+      <div class="entry-fld" style="min-width:140px"><div class="entry-lbl">Category</div><select class="liab-cat" onchange="toggleCCLimit(this)">${opts}</select></div>
+      <div class="entry-fld grow"><div class="entry-lbl">Description</div><input type="text" class="liab-desc" placeholder="e.g. ANZ Home Loan"></div>
+      <div class="entry-fld" style="min-width:100px"><div class="entry-lbl">Balance ($)</div><div class="entry-pre"><span>$</span><input type="number" class="liab-bal" placeholder="0"></div></div>
+      <div class="entry-fld" style="min-width:100px;display:none" id="ccl_${uid}"><div class="entry-lbl">Credit Limit ($)</div><div class="entry-pre"><span>$</span><input type="number" class="liab-cl" placeholder="0"></div></div>
+      <div class="entry-fld" style="min-width:110px"><div class="entry-lbl">Monthly Repayment ($)</div><div class="entry-pre"><span>$</span><input type="number" class="liab-rep" placeholder="0"></div></div>
+    </div><button class="del-entry" data-type="liab">×</button>`;
+    document.getElementById('liabsList').appendChild(div);
+    div.querySelector('input').focus();
+  });
+  document.getElementById('detPrint').addEventListener('click', () => {
+    const a = apps.find(x => x.id === curDetailId);
+    if (!a) return;
+    // Inject print header and footer temporarily
+    const body = document.querySelector('.det-body');
+    // Add print header
+    const ph = document.createElement('div');
+    ph.className = 'print-header';
+    ph.id = 'printHeader';
+    ph.innerHTML = `
+      <div style="display:flex;align-items:center;gap:10px">
+        <div style="width:36px;height:36px;background:linear-gradient(135deg,#c9a84c,#e2c47a);border-radius:8px;display:flex;align-items:center;justify-content:center">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0f2140" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+        </div>
+        <div>
+          <div style="font-family:'DM Serif Display',serif;font-size:16px;color:#0f2140;font-weight:700">JLP Financial</div>
+          <div style="font-size:10px;color:#64748b;letter-spacing:1px;text-transform:uppercase">Loan Application</div>
+        </div>
+      </div>
+      <div style="text-align:right;font-size:11px;color:#64748b">
+        <div style="font-weight:600;color:#0f2140">${getName(a)}</div>
+        <div>ID: ${a.id}</div>
+        <div>Printed: ${new Date().toLocaleDateString('en-AU',{day:'numeric',month:'long',year:'numeric'})}</div>
+      </div>`;
+    body.insertBefore(ph, body.firstChild);
+    // Add print footer
+    const pf = document.createElement('div');
+    pf.className = 'print-footer';
+    pf.id = 'printFooter';
+    pf.innerHTML = 'JLP Financial Pty Ltd &nbsp;·&nbsp; info@jlpfinancial.com.au &nbsp;·&nbsp; 0433 773 021 &nbsp;·&nbsp; Confidential – For internal use only';
+    body.appendChild(pf);
+    window.print();
+    // Clean up after print
+    setTimeout(() => {
+      const h = document.getElementById('printHeader');
+      const f = document.getElementById('printFooter');
+      if (h) h.remove();
+      if (f) f.remove();
+    }, 1000);
+  });
+  document.getElementById('ssRow').addEventListener('click', async e=>{
+    const btn=e.target.closest('[data-status]');
+    if(!btn) return;
+    const s=btn.dataset.status;
+    const a=apps.find(x=>x.id===curDetailId);
+    if(!a) return;
+    a.status=s;
+    await dbPatch(curDetailId,{status:s});
+    openDetail(curDetailId);
+    showToast('Status → '+s);
+  });
+  document.getElementById('detSaveNotes').addEventListener('click', async ()=>{
+    const a=apps.find(x=>x.id===curDetailId);
+    if(!a) return;
+    a.notes=document.getElementById('detNotes').value;
+    await dbPatch(curDetailId,{notes:a.notes});
+    showToast('Notes saved');
+  });
+  document.getElementById('detDelete').addEventListener('click', async ()=>{
+    if(!confirm('Delete this application? Cannot be undone.')) return;
+    await dbDelete(curDetailId);
+    apps=apps.filter(x=>x.id!==curDetailId);
+    showToast('Deleted');
+    showList();
+  });
+}
+
+// ── EXPORT ──
+function exportCSV() {
+  if(!apps.length){showToast('No data to export');return;}
+  const h=['ID','Submitted','Status','Purpose','Finance Type','Loan Amount','Duration','Make','Model','Year','First Name','Last Name','Mobile','Email','DOB','Licence No','Address','Employment','Employer','Income','Biz ABN','Biz Name'];
+  const rows=apps.map(a=>[a.id,a.submittedAt,a.status||'New',a.purpose,a.finType,a.loanAmount,a.loanDuration,a.make,a.model,a.year,a.a1?.firstName,a.a1?.lastName,a.a1?.mobile,a.a1?.email,a.a1?.dob,a.a1?.licNo,[a.a1?.street,a.a1?.suburb,a.a1?.state,a.a1?.postcode].filter(Boolean).join(' '),a.a1?.empStatus,a.a1?.empName,a.a1?.income,a.biz?.abn,a.biz?.name].map(v=>`"${(v||'').toString().replace(/"/g,'""')}"`).join(','));
+  const blob=new Blob([[h.join(','),...rows].join('\n')],{type:'text/csv'});
+  const url=URL.createObjectURL(blob);
+  const el=document.createElement('a');el.href=url;el.download='jlp-applications.csv';el.click();
+  URL.revokeObjectURL(url);
+  showToast('CSV exported');
+}
+
+// ── SAMPLE DATA ──
+async function loadSampleData() {
+  if(apps.length&&!confirm('Add sample data? Continue?')) return;
+  showToast('Loading sample data…');
+  const samples=[
+    {app_id:'APP-S1',submitted_at:new Date(Date.now()-86400000*2).toISOString(),status:'New',notes:'',purpose:'personal',fin_type:'Vehicle',applicant_type:'solo',loan_amount:'$35,000',loan_duration:'5',balloon:'0%',make:'Toyota',model:'HiLux',year:'2023',rego:'ABC123',vin:'',condition:'New',purchase_from:'Dealer',a1:{title:'Mr',firstName:'James',lastName:'Robertson',mobile:'0412 345 678',email:'james.robertson@email.com',dob:'1985-06-14',marital:'Married',dependents:'2',residency:'Australian Citizen',licNo:'12345678',licExp:'2028-06-14',licCard:'11223344',living:'Own Home with Mortgage',street:'42 Harbour St',suburb:'Sydney',state:'NSW',postcode:'2000',empStatus:'Full Time',empName:'Robertson Constructions',empPhone:'02 9876 5432',occupation:'Project Manager',empYrs:'6',empMos:'3',income:'8500',incomeTax:'Before Tax',incomeFreq:'Monthly'},a2:null,biz:null,assets:[{category:'Property',description:'Family Home',value:'650000'}],liabilities:[{category:'Mortgage',description:'CBA',balance:'380000',repayment:'2200'}],expenses:[{label:'Groceries',amount:'800'}],documents:['Driver Licence','2x Payslips']},
+    {app_id:'APP-S2',submitted_at:new Date(Date.now()-86400000*5).toISOString(),status:'Review',notes:'Waiting on payslips.',purpose:'business',fin_type:'Truck',applicant_type:'solo',loan_amount:'$120,000',loan_duration:'7',balloon:'5%',make:'Isuzu',model:'NPR 45-155',year:'2024',rego:'',vin:'',condition:'New',purchase_from:'Dealer',a1:{title:'Ms',firstName:'Sarah',lastName:'Mitchell',mobile:'0423 456 789',email:'sarah@mitchelltransport.com.au',dob:'1979-03-22',marital:'Single',dependents:'0',residency:'Australian Citizen',licNo:'87654321',licExp:'2027-03-22',licCard:'55443322',living:'Own Home Outright',street:'15 Industrial Ave',suburb:'Moorabbin',state:'VIC',postcode:'3189',empStatus:'Self-Employed',abn:'12345678901',empName:'',empPhone:'',occupation:'Transport Operator',empYrs:'8',empMos:'0',income:'15000',incomeTax:'Before Tax',incomeFreq:'Monthly'},a2:null,biz:{abn:'12 345 678 901',name:'Mitchell Transport Pty Ltd',industry:'Transport & Logistics',entity:'Company',abnDur:'8 years',revenue:'45000',expenses:'28000',street:'15 Industrial Ave',suburb:'Moorabbin',state:'VIC',postcode:'3189'},assets:[],liabilities:[],expenses:[],documents:['Driver Licence','Business Registration']},
+    {app_id:'APP-S3',submitted_at:new Date(Date.now()-86400000*1).toISOString(),status:'Approved',notes:'Approved. Settlement pending.',purpose:'personal',fin_type:'Marine',applicant_type:'co',loan_amount:'$68,000',loan_duration:'5',balloon:'0%',make:'Quintrex',model:'510 Renegade',year:'2024',rego:'',vin:'',condition:'New',purchase_from:'Dealer',a1:{title:'Mr',firstName:'David',lastName:'Chen',mobile:'0434 567 890',email:'d.chen@email.com',dob:'1982-11-05',marital:'Married',dependents:'1',residency:'Permanent Resident',licNo:'55667788',licExp:'2026-11-05',licCard:'66778899',living:'Own Home with Mortgage',street:'8 Coastal Rd',suburb:'Manly',state:'NSW',postcode:'2095',empStatus:'Full Time',empName:'Chen & Associates',empPhone:'02 8765 4321',occupation:'Financial Analyst',empYrs:'9',empMos:'0',income:'12000',incomeTax:'After Tax',incomeFreq:'Monthly'},a2:{title:'Mrs',firstName:'Linda',lastName:'Chen',mobile:'0445 678 901',email:'l.chen@email.com',dob:'1984-04-18',residency:'Permanent Resident',empStatus:'Part Time',living:'Own Home with Mortgage'},biz:null,assets:[],liabilities:[],expenses:[],documents:['Driver Licence','Payslips']},
+  ];
+  for(const s of samples) {
+    await dbInsert(s);
+  }
+  await dbLoad();
+  document.getElementById('listView').innerHTML=renderListHTML();
+  bindListEvents();
+  applyFilters();
+  showToast('Sample data loaded');
+}
+
+// ── NAV HELPERS ──
+function filterNav(s) {
+  showList().then(()=>{
+    const sf=document.getElementById('sf');
+    if(sf){sf.value=s;applyFilters();}
+  });
+}
+
+// ── INLINE EDIT ──
+let editSaveTimer = null;
+
+async function saveFieldEdit(fieldPath, newVal) {
+  const a = apps.find(x => x.id === curDetailId);
+  if (!a) return;
+
+  // Parse field path like "a1.firstName" or "loanAmount"
+  const parts = fieldPath.split('.');
+  if (parts.length === 1) {
+    a[parts[0]] = newVal;
+  } else if (parts.length === 2) {
+    if (!a[parts[0]]) a[parts[0]] = {};
+    a[parts[0]][parts[1]] = newVal;
+  } else if (parts.length === 3) {
+    if (!a[parts[0]]) a[parts[0]] = {};
+    if (!a[parts[0]][parts[1]]) a[parts[0]][parts[1]] = {};
+    a[parts[0]][parts[1]][parts[2]] = newVal;
+  }
+
+  // Build patch payload
+  const patch = {};
+  if (parts[0] === 'a1') patch.a1 = a.a1;
+  else if (parts[0] === 'a2') patch.a2 = a.a2;
+  else if (parts[0] === 'biz') patch.biz = a.biz;
+  else if (parts[0] === 'assets') patch.assets = a.assets;
+  else if (parts[0] === 'liabilities') patch.liabilities = a.liabilities;
+  else if (parts[0] === 'expenses') patch.expenses = a.expenses;
+  else {
+    // Map camelCase to snake_case for top-level fields
+    const map = {
+      loanAmount:'loan_amount', loanDuration:'loan_duration', balloon:'balloon',
+      make:'make', model:'model', year:'year', rego:'rego', vin:'vin',
+      condition:'condition', purchaseFrom:'purchase_from', finType:'fin_type',
+      purpose:'purpose', applicantType:'applicant_type'
+    };
+    const col = map[parts[0]] || parts[0];
+    patch[col] = newVal;
+  }
+
+  await dbPatch(curDetailId, patch);
+
+  // Show save indicator
+  const ind = document.getElementById('editIndicator');
+  ind.classList.add('show');
+  clearTimeout(editSaveTimer);
+  editSaveTimer = setTimeout(() => ind.classList.remove('show'), 1800);
+}
+
+function initInlineEdit() {
+  const dv = document.getElementById('detailView');
+
+  // TEXT: click fval → show finput
+  dv.addEventListener('click', e => {
+    const fval = e.target.closest('.fval');
+    if (!fval || !fval.dataset.field || fval.classList.contains('ef-sel')) return;
+    const fp = fval.dataset.field;
+    const eid = 'ef_' + fp.replace(/[^a-z0-9]/gi,'_');
+    const inp = document.getElementById(eid + '_i');
+    if (!inp) return;
+    fval.classList.add('ef-active-hide');
+    inp.classList.add('on');
+    inp.focus(); inp.select();
+  });
+
+  // TEXT: blur → save
+  dv.addEventListener('focusout', async e => {
+    const inp = e.target;
+    if (!inp.classList.contains('finput') || !inp.classList.contains('on') || inp.classList.contains('ef-select')) return;
+    const fp = inp.dataset.field;
+    const eid = 'ef_' + fp.replace(/[^a-z0-9]/gi,'_');
+    const fval = document.getElementById(eid + '_v');
+    const newVal = inp.value.trim();
+    if (fval) {
+      fval.textContent = newVal || '—';
+      fval.className = 'fval' + (newVal ? '' : ' empty');
+      fval.dataset.field = fp;
+      fval.title = 'Click to edit';
+      fval.classList.remove('ef-active-hide');
+    }
+    inp.classList.remove('on');
+    if (newVal !== inp.dataset.lastSaved) {
+      inp.dataset.lastSaved = newVal;
+      await saveFieldEdit(fp, newVal);
+      // Re-render if years fields changed (prev employment / prev address visibility)
+      if (fp === 'a1.empYrs' || fp === 'a2.empYrs' || fp === 'a1.addrYrs' || fp === 'a2.addrYrs') {
+        openDetail(curDetailId);
+      }
+    }
+  });
+
+  // Keyboard
+  dv.addEventListener('keydown', e => {
+    if ((e.key==='Enter'||e.key==='Escape') && e.target.classList.contains('finput')) e.target.blur();
+  });
+
+  // SELECT: click fval.ef-sel → show select
+  dv.addEventListener('click', e => {
+    const fval = e.target.closest('.ef-sel');
+    if (!fval || !fval.dataset.field) return;
+    const fp = fval.dataset.field;
+    const eid = 'efs_' + fp.replace(/[^a-z0-9]/gi,'_');
+    const sel = document.getElementById(eid + '_s');
+    if (!sel) return;
+    fval.style.display = 'none';
+    sel.classList.add('on');
+    sel.focus();
+  });
+
+  // SELECT: change → save
+  dv.addEventListener('change', async e => {
+    const sel = e.target;
+    if (!sel.classList.contains('ef-select')) return;
+    const fp = sel.dataset.field;
+    const valEl = document.getElementById(sel.dataset.valel);
+    const newVal = sel.value;
+    if (valEl) {
+      valEl.querySelector('span').textContent = newVal || '—';
+      valEl.className = 'fval ef-sel' + (newVal ? '' : ' empty');
+      valEl.dataset.field = fp;
+      valEl.style.display = '';
+    }
+    sel.classList.remove('on');
+    await saveFieldEdit(fp, newVal);
+
+    // Visa toggle
+    const a = apps.find(x => x.id === curDetailId);
+    if (!a) return;
+    if (fp === 'a1.residency') {
+      const sec = document.getElementById('a1VisaSection');
+      if (sec) sec.innerHTML = newVal==='Visa' ? `${df('Visa Number',a.a1?.visaNo,'a1.visaNo')}${df('Visa Expiry',a.a1?.visaExp,'a1.visaExp')}` : '';
+    }
+    if (fp === 'a2.residency') {
+      const sec = document.getElementById('a2VisaSection');
+      if (sec) sec.innerHTML = newVal==='Visa' ? `${df('Visa Number',a.a2?.visaNo,'a2.visaNo')}${df('Visa Expiry',a.a2?.visaExp,'a2.visaExp')}` : '';
+    }
+    // Re-render on emp status change (for ABN visibility)
+    if (fp === 'a1.empStatus' || fp === 'a2.empStatus') {
+      openDetail(curDetailId);
+    }
+  });
+
+  // SELECT: focusout
+  dv.addEventListener('focusout', e => {
+    if (!e.target.classList.contains('ef-select')) return;
+    const sel = e.target;
+    const valEl = document.getElementById(sel.dataset.valel);
+    if (valEl) valEl.style.display = '';
+    setTimeout(() => sel.classList.remove('on'), 150);
+  });
+}
+
+// ── INIT ──
+showList();
+</script>
+</body>
+</html>
