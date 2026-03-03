@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JLP Financial – CRM</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=DM+Serif+Display&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --navy:#0f2140;--navy2:#0a1830;--gold:#c9a84c;--gold-l:#e2c47a;
+  --bg:#f0f3f8;
+  --g50:#f8fafc;--g100:#f1f5f9;--g200:#e2e8f0;--g300:#cbd5e1;
+  --g400:#94a3b8;--g500:#64748b;--g600:#475569;--g700:#334155;--g900:#0f172a;
+  --blue:#1a56db;--green:#16a34a;--green-bg:#f0fdf4;
+  --red:#dc2626;--red-bg:#fef2f2;
+  --amber:#b45309;--amber-bg:#fffbeb;
+  --purple:#7c3aed;--purple-bg:#f5f3ff;
+  --r:8px;
+  --sh:0 1px 3px rgba(0,0,0,.05),0 4px 16px rgba(13,27,46,.07);
+}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--g900);font-size:14px;min-height:100vh;display:flex;flex-direction:column}
+.header{background:var(--navy);height:60px;display:flex;align-items:center;justify-content:space-between;padding:0 28px;position:sticky;top:0;z-index:100;box-shadow:0 2px 20px rgba(0,0,0,.3)}
+.logo{display:flex;align-items:center;gap:10px;cursor:pointer;text-decoration:none}
+.logo-badge{width:34px;height:34px;background:linear-gradient(135deg,var(--gold),var(--gold-l));border-radius:7px;display:flex;align-items:center;justify-content:center}
+.logo-badge svg{width:17px;height:17px}
+.logo-name{font-family:'DM Serif Display',serif;font-size:15px;color:#fff}
+.logo-sub{font-size:10px;color:rgba(255,255,255,.4);letter-spacing:1.5px;text-transform:uppercase;margin-left:4px}
+.hbtn{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.07);color:rgba(255,255,255,.8);font-family:'DM Sans',sans-serif;transition:all .13s}
+.hbtn:hover{background:rgba(255,255,255,.13)}
+.layout{display:flex;flex:1;min-height:0}
+.sidebar{width:220px;background:var(--navy2);flex-shrink:0;padding:20px 0}
+.nav-s{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.2);padding:16px 20px 6px}
+.nav-i{display:flex;align-items:center;gap:10px;padding:10px 20px;font-size:13px;font-weight:500;color:rgba(255,255,255,.5);cursor:pointer;transition:all .13s;border-left:2px solid transparent;user-select:none}
+.nav-i:hover{color:rgba(255,255,255,.8);background:rgba(255,255,255,.04)}
+.nav-i.active{color:#fff;background:rgba(255,255,255,.06);border-left-color:var(--gold)}
+.nav-i svg{width:15px;height:15px;flex-shrink:0}
+.ndot{width:7px;height:7px;border-radius:50%;display:inline-block;flex-shrink:0}
+.main{flex:1;overflow-y:auto;padding:28px}
+.stats{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-bottom:24px}
+.stat{background:white;border:1px solid var(--g200);border-radius:10px;padding:16px 18px;box-shadow:var(--sh)}
+.stat-val{font-family:'DM Serif Display',serif;font-size:26px;color:var(--navy);line-height:1}
+.stat-lbl{font-size:11px;color:var(--g500);margin-top:4px;font-weight:500}
+.toolbar{display:flex;align-items:center;gap:10px;margin-bottom:16px;flex-wrap:wrap}
+.srch{position:relative;flex:1;min-width:200px}
+.srch svg{position:absolute;left:11px;top:50%;transform:translateY(-50%);width:14px;height:14px;color:var(--g400);pointer-events:none}
+.srch input{width:100%;height:38px;padding:0 12px 0 34px;border:1.5px solid var(--g200);border-radius:var(--r);font-family:'DM Sans',sans-serif;font-size:13px;outline:none;background:white;transition:border .15s}
+.srch input:focus{border-color:var(--blue)}
+select.fsel{height:38px;padding:0 28px 0 11px;border:1.5px solid var(--g200);border-radius:var(--r);font-family:'DM Sans',sans-serif;font-size:13px;color:var(--g700);background:white url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath fill='%2364748b' d='M5 6L0 0h10z'/%3E%3C/svg%3E") no-repeat right 9px center;appearance:none;outline:none;cursor:pointer}
+.tbtn{display:inline-flex;align-items:center;gap:6px;height:38px;padding:0 14px;border:1.5px solid var(--g200);border-radius:var(--r);background:white;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;color:var(--g600);cursor:pointer;transition:all .13s}
+.tbtn:hover{border-color:var(--navy);color:var(--navy)}
+.twrap{background:white;border:1px solid var(--g200);border-radius:10px;box-shadow:var(--sh);overflow:hidden}
+table{width:100%;border-collapse:collapse}
+thead th{padding:11px 16px;text-align:left;font-size:10.5px;font-weight:700;color:var(--g500);letter-spacing:.8px;text-transform:uppercase;background:var(--g50);border-bottom:1px solid var(--g200);white-space:nowrap}
+tbody tr{border-bottom:1px solid var(--g100);cursor:pointer;transition:background .1s}
+tbody tr:last-child{border-bottom:none}
+tbody tr:hover{background:var(--g50)}
+tbody td{padding:13px 16px;font-size:13px;color:var(--g700);vertical-align:middle}
+.tname{font-weight:600;color:var(--g900)}
+.tid{font-size:11px;color:var(--g400);font-family:monospace}
+.tamt{font-weight:600;color:var(--navy)}
+.empty-row td{text-align:center;padding:48px;color:var(--g400);font-style:italic}
+.pgn{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-top:1px solid var(--g100);font-size:12.5px;color:var(--g500)}
+.pbtns{display:flex;gap:4px}
+.pbtn{width:30px;height:30px;border:1px solid var(--g200);border-radius:5px;background:white;cursor:pointer;font-size:12px;font-weight:500;color:var(--g600);display:flex;align-items:center;justify-content:center;transition:all .12s}
+.pbtn:hover{border-color:var(--navy);color:var(--navy)}
+.pbtn.active{background:var(--navy);color:white;border-color:var(--navy)}
+.badge{display:inline-flex;align-items:center;gap:4px;padding:3px 9px;border-radius:20px;font-size:11px;font-weight:600;white-space:nowrap}
+.b-New{background:#eff6ff;color:#1d4ed8}.b-Review{background:var(--amber-bg);color:var(--amber)}.b-Approved{background:var(--green-bg);color:var(--green)}.b-Declined{background:var(--red-bg);color:var(--red)}.b-Submitted{background:var(--purple-bg);color:var(--purple)}
+.bdot{width:5px;height:5px;border-radius:50%;background:currentColor}
+/* PIPELINE */
+.pipe-cols{display:flex;gap:16px;overflow-x:auto;padding-bottom:8px}
+.pipe-col{flex:1;min-width:210px}
+.pipe-col-head{display:flex;align-items:center;gap:7px;margin-bottom:12px}
+.pipe-cnt{margin-left:auto;background:var(--g100);color:var(--g500);font-size:11px;font-weight:600;padding:2px 8px;border-radius:10px}
+.pipe-card{background:white;border:1px solid var(--g200);border-radius:8px;padding:13px;margin-bottom:8px;cursor:pointer;transition:box-shadow .13s;box-shadow:var(--sh)}
+.pipe-card:hover{box-shadow:0 4px 16px rgba(0,0,0,.12)}
+/* DETAIL */
+#detailView{display:none;flex:1;flex-direction:column;overflow-y:auto}
+#detailView.show{display:flex}
+.det-topbar{background:var(--navy);height:50px;display:flex;align-items:center;padding:0 28px;gap:12px;flex-shrink:0}
+.back-btn{display:inline-flex;align-items:center;gap:7px;background:none;border:none;color:rgba(255,255,255,.6);font-size:13px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;transition:color .13s;padding:0}
+.back-btn:hover{color:white}
+.det-body{padding:28px;max-width:1100px;width:100%}
+.det-hero{background:var(--navy);border-radius:12px;padding:28px 32px;margin-bottom:24px;display:flex;align-items:flex-start;justify-content:space-between;gap:24px;flex-wrap:wrap}
+.det-hero-name{font-family:'DM Serif Display',serif;font-size:30px;color:white;margin-bottom:6px}
+.det-hero-meta{display:flex;flex-wrap:wrap;gap:16px;font-size:13px;color:rgba(255,255,255,.5)}
+.loan-pill{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:14px 22px;text-align:right}
+.loan-pill-lbl{font-size:10px;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:1px}
+.loan-pill-amt{font-family:'DM Serif Display',serif;font-size:26px;color:var(--gold-l);margin-top:3px}
+.det-row{display:grid;gap:18px;margin-bottom:18px}
+.det-row.c2{grid-template-columns:1fr 1fr}
+.det-row.c3{grid-template-columns:1fr 1fr 1fr}
+.dcard{background:white;border:1px solid var(--g200);border-radius:10px;box-shadow:var(--sh);overflow:hidden}
+.dcard-head{padding:12px 18px;border-bottom:1px solid var(--g100);background:var(--g50);display:flex;align-items:center;gap:9px}
+.dcard-icon{width:26px;height:26px;background:var(--navy);border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.dcard-icon svg{width:13px;height:13px;color:var(--gold-l)}
+.dcard-title{font-size:10px;font-weight:700;letter-spacing:1.8px;text-transform:uppercase;color:var(--navy)}
+.dcard-body{padding:18px}
+.fg{display:grid;gap:12px;margin-bottom:12px}
+.fg:last-child{margin-bottom:0}
+.fg.g2{grid-template-columns:1fr 1fr}
+.fg.g3{grid-template-columns:1fr 1fr 1fr}
+.fg.g4{grid-template-columns:1fr 1fr 1fr 1fr}
+.df-lbl{font-size:10px;font-weight:700;color:var(--g400);text-transform:uppercase;letter-spacing:.6px;margin-bottom:3px}
+.df-val{font-size:13.5px;color:var(--g900);font-weight:500;line-height:1.4}
+.df-val.empty{color:var(--g400);font-style:italic;font-weight:400}
+.divider{border:none;border-top:1px solid var(--g100);margin:14px 0}
+.ss-row{display:flex;gap:7px;flex-wrap:wrap}
+.ss-btn{padding:7px 18px;border-radius:20px;font-size:12px;font-weight:600;border:1.5px solid var(--g200);background:white;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .13s}
+.ss-btn:hover{border-color:var(--g400)}
+.ss-New.on{background:#eff6ff;color:#1d4ed8;border-color:#93c5fd}
+.ss-Review.on{background:var(--amber-bg);color:var(--amber);border-color:#fcd34d}
+.ss-Approved.on{background:var(--green-bg);color:var(--green);border-color:#86efac}
+.ss-Declined.on{background:var(--red-bg);color:var(--red);border-color:#fca5a5}
+.ss-Submitted.on{background:var(--purple-bg);color:var(--purple);border-color:#c4b5fd}
+.mtable{width:100%;border-collapse:collapse;font-size:13px}
+.mtable th{padding:8px 12px;text-align:left;font-size:10px;font-weight:700;color:var(--g500);letter-spacing:.7px;text-transform:uppercase;background:var(--g50);border-bottom:1px solid var(--g200)}
+.mtable td{padding:9px 12px;border-bottom:1px solid var(--g100);color:var(--g700)}
+.mtable tr:last-child td{border-bottom:none}
+.mtable .r{text-align:right;font-weight:600;color:var(--g900)}
+.mt-empty{color:var(--g400);font-style:italic;font-size:12.5px}
+.notes-area{width:100%;min-height:100px;padding:11px 13px;border:1.5px solid var(--g200);border-radius:var(--r);font-family:'DM Sans',sans-serif;font-size:13px;color:var(--g900);resize:vertical;outline:none;line-height:1.6;transition:border .15s}
+.notes-area:focus{border-color:var(--blue)}
+.act-row{display:flex;align-items:center;gap:8px;margin-top:10px}
+.save-btn{padding:9px 20px;background:var(--navy);color:white;border:none;border-radius:var(--r);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;cursor:pointer}
+.del-btn{padding:9px 18px;background:var(--red-bg);color:var(--red);border:1px solid #fca5a5;border-radius:var(--r);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;cursor:pointer;margin-left:auto}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--navy);color:white;padding:10px 22px;border-radius:40px;font-size:13px;font-weight:500;box-shadow:0 4px 20px rgba(0,0,0,.2);transition:transform .3s cubic-bezier(.34,1.56,.64,1);z-index:999;pointer-events:none}
+.toast.show{transform:translateX(-50%) translateY(0)}
+.loading{padding:60px;text-align:center;color:var(--g400);font-size:14px}
+@media(max-width:900px){.sidebar{display:none}.stats{grid-template-columns:repeat(2,1fr)}.det-row.c2,.det-row.c3{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="logo" onclick="showList()">
+    <div class="logo-badge"><svg viewBox="0 0 24 24" fill="none" stroke="var(--navy)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg></div>
+    <span class="logo-name">JLP Financial</span>
+    <span class="logo-sub">CRM</span>
+  </div>
+  <div style="display:flex;gap:10px">
+    <a href="jlp-application-v3.html" class="hbtn">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/></svg>
+      New Application
+    </a>
+    <button class="hbtn" onclick="loadSampleData()">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+      Sample Data
+    </button>
+    <button class="hbtn" onclick="exportCSV()">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      Export CSV
+    </button>
+    <button class="hbtn" onclick="showList()">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1,4 1,10 7,10"/><path d="M3.51 15a9 9 0 1 0 .49-4.87"/></svg>
+      Refresh
+    </button>
+  </div>
+</header>
+
+<div class="layout">
+  <aside class="sidebar">
+    <div class="nav-s">Menu</div>
+    <div class="nav-i active" id="nav-applications" data-view="applications" onclick="showList()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>Applications
+    </div>
+    <div class="nav-i" id="nav-pipeline" data-view="pipeline" onclick="showPipeline()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/><line x1="2" y1="20" x2="22" y2="20"/></svg>Pipeline
+    </div>
+    <div class="nav-s">Filter</div>
+    <div class="nav-i" data-filter="New" onclick="filterNav('New')"><span class="ndot" style="background:#1d4ed8"></span>New</div>
+    <div class="nav-i" data-filter="Review" onclick="filterNav('Review')"><span class="ndot" style="background:#b45309"></span>In Review</div>
+    <div class="nav-i" data-filter="Approved" onclick="filterNav('Approved')"><span class="ndot" style="background:#16a34a"></span>Approved</div>
+    <div class="nav-i" data-filter="Declined" onclick="filterNav('Declined')"><span class="ndot" style="background:#dc2626"></span>Declined</div>
+    <div class="nav-i" data-filter="" onclick="filterNav('')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>All
+    </div>
+  </aside>
+
+  <main class="main" id="listView"><div class="loading">Loading applications…</div></main>
+  <div id="detailView"></div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ── CONFIG ──
+const SURL = 'https://gxwwcrcllhaaoewgcbeo.supabase.co';
+const SKEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imd4d3djcmNsbGhhYW9ld2djYmVvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI1MjE4MTIsImV4cCI6MjA4ODA5NzgxMn0.twL-AmGGqfH29Nsl2p-Ezqi5zJ_h-3TOrguFAdjiET8';
+const SH = {'apikey':SKEY,'Authorization':'Bearer '+SKEY,'Content-Type':'application/json'};
+
+// ── STATE ──
+let apps = [], filtered = [], curPage = 1, PER = 15, curView = 'applications', curDetailId = null;
+
+// ── SUPABASE ──
+async function dbLoad() {
+  const res = await fetch(SURL+'/rest/v1/applications?select=*&order=submitted_at.desc', {headers:SH});
+  const rows = await res.json();
+  if (!Array.isArray(rows)) { console.error('Load error', rows); return; }
+  apps = rows.map(r => ({
+    id: r.app_id, _rid: r.id,
+    submittedAt: r.submitted_at, status: r.status||'New', notes: r.notes||'',
+    purpose: r.purpose, finType: r.fin_type, applicantType: r.applicant_type,
+    loanAmount: r.loan_amount, loanDuration: r.loan_duration, balloon: r.balloon,
+    make: r.make, model: r.model, year: r.year, rego: r.rego, vin: r.vin,
+    condition: r.condition, purchaseFrom: r.purchase_from,
+    a1: r.a1||{}, a2: r.a2||null, biz: r.biz||null,
+    assets: Array.isArray(r.assets)?r.assets:[],
+    liabilities: Array.isArray(r.liabilities)?r.liabilities:[],
+    expenses: Array.isArray(r.expenses)?r.expenses:[],
+    documents: Array.isArray(r.documents)?r.documents:[],
+  }));
+}
+
+async function dbPatch(id, data) {
+  await fetch(SURL+'/rest/v1/applications?app_id=eq.'+encodeURIComponent(id), {
+    method:'PATCH', headers:{...SH,'Prefer':'return=minimal'}, body:JSON.stringify(data)
+  });
+}
+
+async function dbDelete(id) {
+  await fetch(SURL+'/rest/v1/applications?app_id=eq.'+encodeURIComponent(id), {
+    method:'DELETE', headers:SH
+  });
+}
+
+async function dbInsert(payload) {
+  const res = await fetch(SURL+'/rest/v1/applications', {
+    method:'POST', headers:{...SH,'Prefer':'return=minimal'}, body:JSON.stringify(payload)
+  });
+  return res.ok;
+}
+
+// ── HELPERS ──
+function getName(a) { return [a.a1?.firstName,a.a1?.lastName].filter(Boolean).join(' ')||'Unknown Applicant'; }
+function fDate(iso) { if(!iso) return '—'; const d=new Date(iso); return d.toLocaleDateString('en-AU',{day:'numeric',month:'short',year:'numeric'})+' '+d.toLocaleTimeString('en-AU',{hour:'2-digit',minute:'2-digit'}); }
+function fMoney(v) { return v?'$'+Number(v).toLocaleString('en-AU'):'—'; }
+function badge(s) {
+  const m={New:'b-New',Review:'b-Review',Approved:'b-Approved',Declined:'b-Declined',Submitted:'b-Submitted'};
+  return `<span class="badge ${m[s]||'b-New'}"><span class="bdot"></span>${s||'New'}</span>`;
+}
+function df(label,val) {
+  const e=!val||val==='—';
+  return `<div><div class="df-lbl">${label}</div><div class="df-val${e?' empty':''}">${e?'—':val}</div></div>`;
+}
+function dicon(path) {
+  return `<div class="dcard-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${path}</svg></div>`;
+}
+function dcard(iconPath, title, body) {
+  return `<div class="dcard"><div class="dcard-head">${dicon(iconPath)}<div class="dcard-title">${title}</div></div><div class="dcard-body">${body}</div></div>`;
+}
+function showToast(msg) {
+  const t=document.getElementById('toast');
+  t.textContent=msg; t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2800);
+}
+
+// ── STATS ──
+function renderStats() {
+  const t=apps.length, bs=s=>apps.filter(a=>(a.status||'New')===s).length;
+  const tv=apps.reduce((s,a)=>s+(parseFloat((a.loanAmount||'').replace(/[^0-9.]/g,''))||0),0);
+  return `<div class="stats">
+    <div class="stat"><div class="stat-val">${t}</div><div class="stat-lbl">Total Applications</div></div>
+    <div class="stat"><div class="stat-val" style="color:#1d4ed8">${bs('New')}</div><div class="stat-lbl">New</div></div>
+    <div class="stat"><div class="stat-val" style="color:#b45309">${bs('Review')}</div><div class="stat-lbl">In Review</div></div>
+    <div class="stat"><div class="stat-val" style="color:#16a34a">${bs('Approved')}</div><div class="stat-lbl">Approved</div></div>
+    <div class="stat"><div class="stat-val">${tv>0?'$'+tv.toLocaleString('en-AU'):'—'}</div><div class="stat-lbl">Total Loan Value</div></div>
+  </div>`;
+}
+
+// ── LIST ──
+function applyFilters() {
+  const q=(document.getElementById('si')?.value||'').toLowerCase();
+  const st=document.getElementById('sf')?.value||'';
+  const tp=document.getElementById('tf')?.value||'';
+  filtered=apps.filter(a=>{
+    const n=getName(a).toLowerCase();
+    const ms=!q||n.includes(q)||(a.id||'').toLowerCase().includes(q)||(a.finType||'').toLowerCase().includes(q)||(a.a1?.email||'').toLowerCase().includes(q)||(a.a1?.mobile||'').includes(q);
+    return ms&&(!st||(a.status||'New')===st)&&(!tp||a.purpose===tp);
+  });
+  curPage=1; renderTable();
+}
+function renderTable() {
+  const s=(curPage-1)*PER, pg=filtered.slice(s,s+PER), tp=Math.ceil(filtered.length/PER);
+  const rows=pg.length?pg.map(a=>`<tr data-id="${a.id}">
+    <td><div class="tname">${getName(a)}</div><div class="tid">${a.id||''}</div></td>
+    <td>${badge(a.status||'New')}</td>
+    <td>${a.finType||'—'}</td>
+    <td style="text-transform:capitalize">${a.purpose||'—'}</td>
+    <td class="tamt">${a.loanAmount||'—'}</td>
+    <td>${a.a1?.mobile||'—'}</td>
+    <td style="font-size:12px;color:var(--g500)">${fDate(a.submittedAt)}</td>
+  </tr>`).join(''):`<tr class="empty-row"><td colspan="7">No applications found</td></tr>`;
+  const pnums=Array.from({length:tp},(_,i)=>i+1).map(n=>`<button class="pbtn ${n===curPage?'active':''}" data-page="${n}">${n}</button>`).join('');
+  document.getElementById('tbody').innerHTML=rows;
+  document.getElementById('pinfo').textContent=`Showing ${Math.min(s+1,filtered.length)}–${Math.min(s+PER,filtered.length)} of ${filtered.length}`;
+  document.getElementById('pnums').innerHTML=pnums;
+}
+function renderListHTML() {
+  return `${renderStats()}
+    <div class="toolbar">
+      <div class="srch"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input id="si" placeholder="Search name, ID, mobile, email…"></div>
+      <select class="fsel" id="sf"><option value="">All Statuses</option><option>New</option><option>Review</option><option>Approved</option><option>Declined</option><option>Submitted</option></select>
+      <select class="fsel" id="tf"><option value="">All Types</option><option value="personal">Personal</option><option value="business">Business</option></select>
+      <button class="tbtn" id="btnClear"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><polyline points="1,4 1,10 7,10"/><path d="M3.51 15a9 9 0 1 0 .49-4.87"/></svg>Clear</button>
+    </div>
+    <div class="twrap"><table>
+      <thead><tr><th>Applicant</th><th>Status</th><th>Finance Type</th><th>Purpose</th><th>Loan Amount</th><th>Mobile</th><th>Submitted</th></tr></thead>
+      <tbody id="tbody"></tbody>
+    </table>
+    <div class="pgn"><span id="pinfo"></span><div class="pbtns" id="pnums"></div></div></div>`;
+}
+async function showList() { // returns promise
+  document.getElementById('listView').style.display='';
+  const dv=document.getElementById('detailView');dv.classList.remove('show');dv.innerHTML='';
+  document.getElementById('listView').innerHTML='<div class="loading">Loading…</div>';
+  await dbLoad();
+  document.getElementById('listView').innerHTML=renderListHTML();
+  bindListEvents();
+  applyFilters();
+}
+function bindListEvents() {
+  document.getElementById('si').addEventListener('input', applyFilters);
+  document.getElementById('sf').addEventListener('change', applyFilters);
+  document.getElementById('tf').addEventListener('change', applyFilters);
+  document.getElementById('btnClear').addEventListener('click', ()=>{
+    document.getElementById('si').value='';
+    document.getElementById('sf').value='';
+    document.getElementById('tf').value='';
+    applyFilters();
+  });
+  document.getElementById('tbody').addEventListener('click', e=>{
+    const tr=e.target.closest('tr[data-id]');
+    if(tr) openDetail(tr.dataset.id);
+  });
+  document.getElementById('pnums').addEventListener('click', e=>{
+    const btn=e.target.closest('[data-page]');
+    if(btn){curPage=parseInt(btn.dataset.page);renderTable();}
+  });
+}
+
+// ── PIPELINE ──
+async function showPipeline() {
+  document.getElementById('listView').style.display='';
+  document.getElementById('detailView').classList.remove('show');
+  document.getElementById('detailView').innerHTML='';
+  document.getElementById('listView').innerHTML='<div class="loading">Loading…</div>';
+  await dbLoad();
+  const statuses=['New','Review','Approved','Declined'];
+  const dotC={New:'#1d4ed8',Review:'#b45309',Approved:'#16a34a',Declined:'#dc2626'};
+  const cols=statuses.map(s=>{
+    const items=apps.filter(a=>(a.status||'New')===s);
+    const cards=items.length?items.map(a=>`<div class="pipe-card" data-id="${a.id}">
+      <div style="font-weight:600;font-size:13px;color:var(--g900);margin-bottom:3px">${getName(a)}</div>
+      <div style="font-size:11.5px;color:var(--g500);margin-bottom:5px">${a.finType||'—'} · ${(a.purpose||'').charAt(0).toUpperCase()+(a.purpose||'').slice(1)}</div>
+      <div style="font-weight:600;color:var(--navy);font-size:13px">${a.loanAmount||'—'}</div>
+      <div style="font-size:11px;color:var(--g400);margin-top:4px">${fDate(a.submittedAt)}</div>
+    </div>`).join(''):`<div style="color:var(--g400);font-size:12px;font-style:italic;padding:6px 0">No applications</div>`;
+    return `<div class="pipe-col">
+      <div class="pipe-col-head">
+        <span style="width:8px;height:8px;border-radius:50%;background:${dotC[s]};display:inline-block"></span>
+        <span style="font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--g600)">${s}</span>
+        <span class="pipe-cnt">${items.length}</span>
+      </div>${cards}</div>`;
+  }).join('');
+  document.getElementById('listView').innerHTML=`${renderStats()}<div class="pipe-cols" id="pipeCols">${cols}</div>`;
+  document.getElementById('pipeCols').addEventListener('click', e=>{
+    const card=e.target.closest('[data-id]');
+    if(card) openDetail(card.dataset.id);
+  });
+}
+
+// ── DETAIL ──
+function openDetail(id) {
+  const a=apps.find(x=>x.id===id);
+  if(!a) return;
+  curDetailId=id;
+  const name=getName(a);
+  const ssBtns=['New','Review','Approved','Declined','Submitted'].map(s=>
+    `<button class="ss-btn ss-${s} ${(a.status||'New')===s?'on':''}" data-status="${s}">${s}</button>`).join('');
+  const aArr=Array.isArray(a.assets)?a.assets:[];
+  const lArr=Array.isArray(a.liabilities)?a.liabilities:[];
+  const eArr=Array.isArray(a.expenses)?a.expenses:[];
+  const assetRows=aArr.length?aArr.map(r=>`<tr><td>${r.category||'—'}</td><td>${r.description||'—'}</td><td class="r">${r.value?fMoney(r.value):'—'}</td></tr>`).join(''):`<tr><td colspan="3" class="mt-empty">None recorded</td></tr>`;
+  const liabRows=lArr.length?lArr.map(r=>`<tr><td>${r.category||'—'}</td><td>${r.description||'—'}</td><td class="r">${r.balance?fMoney(r.balance):'—'}</td><td class="r">${r.repayment?fMoney(r.repayment)+'/mo':'—'}</td></tr>`).join(''):`<tr><td colspan="4" class="mt-empty">None recorded</td></tr>`;
+  const expRows=eArr.filter(e=>e.amount&&e.amount!=='0').length?eArr.filter(e=>e.amount&&e.amount!=='0').map(e=>`<tr><td>${e.label}</td><td class="r">${fMoney(e.amount)}/mo</td></tr>`).join(''):`<tr><td colspan="2" class="mt-empty">None recorded</td></tr>`;
+  const bizHTML=a.biz?dcard('<rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>','Business Details',
+    `<div class="fg g3">${df('ABN',a.biz.abn)}${df('Company Name',a.biz.name)}${df('Industry',a.biz.industry)}${df('Entity Type',a.biz.entity)}${df('ABN Duration',a.biz.abnDur)}</div>
+     <div class="fg g2">${df('Monthly Revenue',a.biz.revenue?fMoney(a.biz.revenue):'')}${df('Monthly Expenses',a.biz.expenses?fMoney(a.biz.expenses):'')}</div>
+     ${df('Business Address',[a.biz.street,a.biz.suburb,a.biz.state,a.biz.postcode].filter(Boolean).join(', '))}`):'';
+  const a2HTML=a.a2?dcard('<path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>','Applicant 2 – Co-Borrower',
+    `<div class="fg g4">${df('Title',a.a2.title)}${df('First Name',a.a2.firstName)}${df('Last Name',a.a2.lastName)}${df('Date of Birth',a.a2.dob)}</div>
+     <div class="fg g3">${df('Mobile',a.a2.mobile)}${df('Email',a.a2.email)}${df('Residency',a.a2.residency)}</div>
+     <div class="fg g2">${df('Employment',a.a2.empStatus)}${df('Living Situation',a.a2.living)}</div>`):'';
+
+  document.getElementById('detailView').innerHTML=`
+    <div class="det-topbar">
+      <button class="back-btn" id="detBack"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="15" height="15"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12,19 5,12 12,5"/></svg>Back</button>
+      <span style="color:rgba(255,255,255,.3)">/</span>
+      <span style="color:white;font-size:14px;font-weight:600">${name}</span>
+      <div style="margin-left:auto"><button class="hbtn" id="detPrint"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6,9 6,2 18,2 18,9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>Print</button></div>
+    </div>
+    <div class="det-body">
+      <div class="det-hero">
+        <div>
+          <div class="det-hero-name">${name}</div>
+          <div class="det-hero-meta">
+            <span>${a.finType||'—'} · ${(a.purpose||'').charAt(0).toUpperCase()+(a.purpose||'').slice(1)}</span>
+            <span>ID: ${a.id}</span>
+            <span>Submitted: ${fDate(a.submittedAt)}</span>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:flex-end;gap:10px">
+          ${badge(a.status||'New')}
+          <div class="loan-pill"><div class="loan-pill-lbl">Loan Amount</div><div class="loan-pill-amt">${a.loanAmount||'—'}</div></div>
+        </div>
+      </div>
+
+      ${dcard('<circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/>','Application Status',`<div class="ss-row" id="ssRow">${ssBtns}</div>`)}
+      <div style="height:18px"></div>
+
+      <div class="det-row c2">
+        ${dcard('<line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>','Loan Details',
+          `<div class="fg g3">${df('Loan Amount',a.loanAmount)}${df('Duration',a.loanDuration?a.loanDuration+' Year'+(a.loanDuration>1?'s':''):'')}${df('Balloon',a.balloon&&a.balloon!=='0%'?a.balloon:'')}</div>`)}
+        ${dcard('<path d="M5 17H3a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h13l4 4v4a2 2 0 0 1-2 2h-1"/><circle cx="7" cy="17" r="2"/><circle cx="17" cy="17" r="2"/>','Asset Details',
+          `<div class="fg g3">${df('Make',a.make)}${df('Model',a.model)}${df('Year',a.year)}</div>
+           <div class="fg g3">${df('Condition',a.condition)}${df('Rego',a.rego)}${df('VIN',a.vin)}</div>
+           ${df('Purchased From',a.purchaseFrom)}`)}
+      </div>
+
+      <div class="det-row c2">
+        ${dcard('<path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>','Applicant 1 – Personal',
+          `<div class="fg g4">${df('Title',a.a1?.title)}${df('First Name',a.a1?.firstName)}${df('Last Name',a.a1?.lastName)}${df('Date of Birth',a.a1?.dob)}</div>
+           <div class="fg g2">${df('Mobile',a.a1?.mobile)}${df('Email',a.a1?.email)}</div>
+           <div class="fg g3">${df('Marital Status',a.a1?.marital)}${df('Dependents',a.a1?.dependents)}${df('Residency',a.a1?.residency)}</div>`)}
+        ${dcard('<rect x="3" y="1" width="18" height="22" rx="2"/>','Applicant 1 – ID',
+          `<div class="fg g3">${df('Licence No.',a.a1?.licNo)}${df('Licence Expiry',a.a1?.licExp)}${df('Card No.',a.a1?.licCard)}</div>
+           ${a.a1?.passNo?`<hr class="divider"><div class="fg g3">${df('Passport No.',a.a1.passNo)}${df('Expiry',a.a1.passExp)}${df('Country',a.a1.passCountry)}</div>`:''}`)}
+      </div>
+
+      <div class="det-row c2">
+        ${dcard('<path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>','Applicant 1 – Address',
+          `${df('Living Situation',a.a1?.living)}
+           <hr class="divider">
+           ${df('Current Address',[a.a1?.street,a.a1?.suburb,a.a1?.state,a.a1?.postcode].filter(Boolean).join(', '))}
+           ${a.a1?.prevStreet?`<hr class="divider">${df('Previous Address',[a.a1.prevStreet,a.a1.prevSuburb,a.a1.prevState,a.a1.prevPost].filter(Boolean).join(', '))}`:''}`)}
+        ${dcard('<rect x="2" y="7" width="20" height="14" rx="2"/>','Applicant 1 – Employment',
+          `<div class="fg g3">${df('Status',a.a1?.empStatus)}${df('ABN',a.a1?.abn)}${df('Employer Phone',a.a1?.empPhone)}</div>
+           ${df('Employer',a.a1?.empName)}
+           <div class="fg g2" style="margin-top:10px">${df('Years',a.a1?.empYrs)}${df('Months',a.a1?.empMos)}</div>
+           <hr class="divider">
+           ${df('Income',a.a1?.income?`${a.a1.incomeTax||''} · $${Number(a.a1.income).toLocaleString('en-AU')} / ${a.a1.incomeFreq||''}`:'')}
+           ${a.a1?.otherIncType?`<div style="margin-top:8px">${df('Other Income',a.a1.otherIncType+(a.a1.otherIncAmt?' · '+fMoney(a.a1.otherIncAmt):''))}</div>`:''}`)}
+      </div>
+
+      ${bizHTML?`<div class="det-row">${bizHTML}</div>`:''}
+      ${a2HTML?`<div class="det-row">${a2HTML}</div>`:''}
+
+      <div class="det-row c3">
+        <div class="dcard"><div class="dcard-head">${dicon('<rect x="3" y="2" width="18" height="20" rx="1"/>')}<div class="dcard-title">Assets</div></div>
+          <table class="mtable"><thead><tr><th>Category</th><th>Description</th><th style="text-align:right">Value</th></tr></thead><tbody>${assetRows}</tbody></table></div>
+        <div class="dcard"><div class="dcard-head">${dicon('<line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/>')}<div class="dcard-title">Liabilities</div></div>
+          <table class="mtable"><thead><tr><th>Category</th><th>Description</th><th style="text-align:right">Balance</th><th style="text-align:right">Repayment</th></tr></thead><tbody>${liabRows}</tbody></table></div>
+        <div class="dcard"><div class="dcard-head">${dicon('<path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>')}<div class="dcard-title">Expenses</div></div>
+          <table class="mtable"><thead><tr><th>Category</th><th style="text-align:right">Amount</th></tr></thead><tbody>${expRows}</tbody></table></div>
+      </div>
+
+      ${dcard('<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><line x1="16" y1="13" x2="8" y2="13"/>','Internal Notes',
+        `<textarea class="notes-area" id="detNotes" placeholder="Add notes…">${a.notes||''}</textarea>
+         <div class="act-row"><button class="save-btn" id="detSaveNotes">Save Notes</button><button class="del-btn" id="detDelete">Delete Application</button></div>`)}
+      <div style="height:40px"></div>
+    </div>`;
+
+  document.getElementById('listView').style.display='none';
+  document.getElementById('detailView').classList.add('show');
+  document.getElementById('detailView').scrollTop=0;
+
+  // Bind detail events
+  document.getElementById('detBack').addEventListener('click', ()=>showList());
+  document.getElementById('detPrint').addEventListener('click', ()=>window.print());
+  document.getElementById('ssRow').addEventListener('click', async e=>{
+    const btn=e.target.closest('[data-status]');
+    if(!btn) return;
+    const s=btn.dataset.status;
+    const a=apps.find(x=>x.id===curDetailId);
+    if(!a) return;
+    a.status=s;
+    await dbPatch(curDetailId,{status:s});
+    openDetail(curDetailId);
+    showToast('Status → '+s);
+  });
+  document.getElementById('detSaveNotes').addEventListener('click', async ()=>{
+    const a=apps.find(x=>x.id===curDetailId);
+    if(!a) return;
+    a.notes=document.getElementById('detNotes').value;
+    await dbPatch(curDetailId,{notes:a.notes});
+    showToast('Notes saved');
+  });
+  document.getElementById('detDelete').addEventListener('click', async ()=>{
+    if(!confirm('Delete this application? Cannot be undone.')) return;
+    await dbDelete(curDetailId);
+    apps=apps.filter(x=>x.id!==curDetailId);
+    showToast('Deleted');
+    showList();
+  });
+}
+
+// ── EXPORT ──
+function exportCSV() {
+  if(!apps.length){showToast('No data to export');return;}
+  const h=['ID','Submitted','Status','Purpose','Finance Type','Loan Amount','Duration','Make','Model','Year','First Name','Last Name','Mobile','Email','DOB','Licence No','Address','Employment','Employer','Income','Biz ABN','Biz Name'];
+  const rows=apps.map(a=>[a.id,a.submittedAt,a.status||'New',a.purpose,a.finType,a.loanAmount,a.loanDuration,a.make,a.model,a.year,a.a1?.firstName,a.a1?.lastName,a.a1?.mobile,a.a1?.email,a.a1?.dob,a.a1?.licNo,[a.a1?.street,a.a1?.suburb,a.a1?.state,a.a1?.postcode].filter(Boolean).join(' '),a.a1?.empStatus,a.a1?.empName,a.a1?.income,a.biz?.abn,a.biz?.name].map(v=>`"${(v||'').toString().replace(/"/g,'""')}"`).join(','));
+  const blob=new Blob([[h.join(','),...rows].join('\n')],{type:'text/csv'});
+  const url=URL.createObjectURL(blob);
+  const el=document.createElement('a');el.href=url;el.download='jlp-applications.csv';el.click();
+  URL.revokeObjectURL(url);
+  showToast('CSV exported');
+}
+
+// ── SAMPLE DATA ──
+async function loadSampleData() {
+  if(apps.length&&!confirm('Add sample data? Continue?')) return;
+  showToast('Loading sample data…');
+  const samples=[
+    {app_id:'APP-S1',submitted_at:new Date(Date.now()-86400000*2).toISOString(),status:'New',notes:'',purpose:'personal',fin_type:'Vehicle',applicant_type:'solo',loan_amount:'$35,000',loan_duration:'5',balloon:'0%',make:'Toyota',model:'HiLux',year:'2023',rego:'ABC123',vin:'',condition:'New',purchase_from:'Dealer',a1:{title:'Mr',firstName:'James',lastName:'Robertson',mobile:'0412 345 678',email:'james.robertson@email.com',dob:'1985-06-14',marital:'Married',dependents:'2',residency:'Australian Citizen',licNo:'12345678',licExp:'2028-06-14',licCard:'11223344',living:'Own Home with Mortgage',street:'42 Harbour St',suburb:'Sydney',state:'NSW',postcode:'2000',empStatus:'Full Time',empName:'Robertson Constructions',empPhone:'02 9876 5432',occupation:'Project Manager',empYrs:'6',empMos:'3',income:'8500',incomeTax:'Before Tax',incomeFreq:'Monthly'},a2:null,biz:null,assets:[{category:'Property',description:'Family Home',value:'650000'}],liabilities:[{category:'Mortgage',description:'CBA',balance:'380000',repayment:'2200'}],expenses:[{label:'Groceries',amount:'800'}],documents:['Driver Licence','2x Payslips']},
+    {app_id:'APP-S2',submitted_at:new Date(Date.now()-86400000*5).toISOString(),status:'Review',notes:'Waiting on payslips.',purpose:'business',fin_type:'Truck',applicant_type:'solo',loan_amount:'$120,000',loan_duration:'7',balloon:'5%',make:'Isuzu',model:'NPR 45-155',year:'2024',rego:'',vin:'',condition:'New',purchase_from:'Dealer',a1:{title:'Ms',firstName:'Sarah',lastName:'Mitchell',mobile:'0423 456 789',email:'sarah@mitchelltransport.com.au',dob:'1979-03-22',marital:'Single',dependents:'0',residency:'Australian Citizen',licNo:'87654321',licExp:'2027-03-22',licCard:'55443322',living:'Own Home Outright',street:'15 Industrial Ave',suburb:'Moorabbin',state:'VIC',postcode:'3189',empStatus:'Self-Employed',abn:'12345678901',empName:'',empPhone:'',occupation:'Transport Operator',empYrs:'8',empMos:'0',income:'15000',incomeTax:'Before Tax',incomeFreq:'Monthly'},a2:null,biz:{abn:'12 345 678 901',name:'Mitchell Transport Pty Ltd',industry:'Transport & Logistics',entity:'Company',abnDur:'8 years',revenue:'45000',expenses:'28000',street:'15 Industrial Ave',suburb:'Moorabbin',state:'VIC',postcode:'3189'},assets:[],liabilities:[],expenses:[],documents:['Driver Licence','Business Registration']},
+    {app_id:'APP-S3',submitted_at:new Date(Date.now()-86400000*1).toISOString(),status:'Approved',notes:'Approved. Settlement pending.',purpose:'personal',fin_type:'Marine',applicant_type:'co',loan_amount:'$68,000',loan_duration:'5',balloon:'0%',make:'Quintrex',model:'510 Renegade',year:'2024',rego:'',vin:'',condition:'New',purchase_from:'Dealer',a1:{title:'Mr',firstName:'David',lastName:'Chen',mobile:'0434 567 890',email:'d.chen@email.com',dob:'1982-11-05',marital:'Married',dependents:'1',residency:'Permanent Resident',licNo:'55667788',licExp:'2026-11-05',licCard:'66778899',living:'Own Home with Mortgage',street:'8 Coastal Rd',suburb:'Manly',state:'NSW',postcode:'2095',empStatus:'Full Time',empName:'Chen & Associates',empPhone:'02 8765 4321',occupation:'Financial Analyst',empYrs:'9',empMos:'0',income:'12000',incomeTax:'After Tax',incomeFreq:'Monthly'},a2:{title:'Mrs',firstName:'Linda',lastName:'Chen',mobile:'0445 678 901',email:'l.chen@email.com',dob:'1984-04-18',residency:'Permanent Resident',empStatus:'Part Time',living:'Own Home with Mortgage'},biz:null,assets:[],liabilities:[],expenses:[],documents:['Driver Licence','Payslips']},
+  ];
+  for(const s of samples) {
+    await dbInsert(s);
+  }
+  await dbLoad();
+  document.getElementById('listView').innerHTML=renderListHTML();
+  bindListEvents();
+  applyFilters();
+  showToast('Sample data loaded');
+}
+
+// ── NAV HELPERS ──
+function filterNav(s) {
+  showList().then(()=>{
+    const sf=document.getElementById('sf');
+    if(sf){sf.value=s;applyFilters();}
+  });
+}
+
+// ── INIT ──
+showList();
+</script>
+</body>
+</html>
